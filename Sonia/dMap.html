@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<style>
+body{
+  font: 300 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+svg{
+    display: block;
+    margin: auto;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #003366;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    padding: 16px;
+    margin: auto;
+    text-decoration: none;
+}
+
+.main {
+    padding: 16px;
+    margin-top: 30px;
+    height: 1500px; /* Used in this example to enable scrolling */
+}
+
+</style>
+
+
+<body onload="legendDemo()">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+<script src="datamaps.usa.min.js"></script>
+<script src="colorbrewer.v1.min.js"></script>
+<div style="height: 50px; "></div>
+
+<div id="vizcontainer" style="position: relative; width: 550px; height: 80px; margin: 0 auto" >
+  <svg></svg>
+</div>
+
+<script src="legend.js"></script>
+
+<div id="container" style="position: relative; width: 1000px; height: 500px; margin: 0 auto"></div>
+
+<script>
+function colorRange(color1, color2,ratio){
+  
+  color1 = color1.substring(1,7)
+  color2 = color2.substring(1,7)
+  ratio = ratio
+
+  var hex = function(x) {
+      x = x.toString(16);
+      return (x.length == 1) ? '0' + x : x;
+  };
+
+  var r = Math.ceil(parseInt(color1.substring(0,2), 16) * ratio + parseInt(color2.substring(0,2), 16) * (1-ratio));
+  var g = Math.ceil(parseInt(color1.substring(2,4), 16) * ratio + parseInt(color2.substring(2,4), 16) * (1-ratio));
+  var b = Math.ceil(parseInt(color1.substring(4,6), 16) * ratio + parseInt(color2.substring(4,6), 16) * (1-ratio));
+
+  var middle = hex(r) + hex(g) + hex(b);
+  return middle;
+}
+
+function dedupe(arr) {
+  return arr.reduce(function (p, c) {
+
+    // create an identifying id from the object values
+    var id = [c.lat, c.long].join('|');
+
+    // if the id is not found in the temp array
+    // add the object to the output array
+    // and add the key to the temp array
+    if (p.temp.indexOf(id) === -1) {
+      p.out.push(c);
+      p.temp.push(id);
+    }
+    return p;
+
+  // return the deduped array
+  }, { temp: [], out: [] }).out;
+}
+
+
+firstColor = "#FFA07A"
+lastColor = "#000000"
+// secondColor = colorRange(firstColor, lastColor, 0.7)
+// thirdColor = colorRange(secondColor, lastColor,0.55)
+
+color = d3.scale.linear()
+   .domain([-1,0,1])
+    .range([firstColor,lastColor]);
+
+secondColor = color(-0.5)
+thirdColor = color(-0.25)
+
+
+
+d3.json("LocationDiseaseFreq.json", function(error, dict) {
+
+debugger;
+var freData = {cnt:[]};    
+
+//by changing the j you are changing the disease name
+// j = 13 is pysch
+for(j = 13 ; j >12 && j < 14; j++){
+  for(i = 0 ; i < dict[j]['value'].length; i++){
+    if(dict[j]['value'][i].cnt <= 100){
+       freData.cnt.push({
+              name: dict[j]['value'][i].location ,
+              freq: dict[j]['value'][i].cnt,
+              fillKey: 'first',
+               radius: Math.sqrt(dict[j]['value'][i].cnt),
+                latitude: dict[j]['value'][i].lat,
+                  longitude: dict[j]['value'][i].long
+          
+              })
+     }
+     if(dict[j]['value'][i].cnt <= 400 && dict[j]['value'][i].cnt >= 101){
+       freData.cnt.push({
+              name: dict[j]['value'][i].location ,
+              freq: dict[j]['value'][i].cnt,
+              fillKey: 'second',
+               radius: Math.sqrt(dict[j]['value'][i].cnt),
+                latitude: dict[j]['value'][i].lat,
+                  longitude: dict[j]['value'][i].long
+          
+              })
+     }
+     if(dict[j]['value'][i].cnt <= 800 && dict[j]['value'][i].cnt >= 401){
+       freData.cnt.push({
+              name: dict[j]['value'][i].location ,
+              freq: dict[j]['value'][i].cnt,
+              fillKey: 'third',
+               radius: Math.sqrt(dict[j]['value'][i].cnt),
+                latitude: dict[j]['value'][i].lat,
+                  longitude: dict[j]['value'][i].long
+          
+              })
+     }
+     if(dict[j]['value'][i].cnt >= 801){
+       freData.cnt.push({
+              name: dict[j]['value'][i].location ,
+              freq: dict[j]['value'][i].cnt,
+              fillKey: 'forth',
+               radius: Math.sqrt(dict[j]['value'][i].cnt),
+                latitude: dict[j]['value'][i].lat,
+                  longitude: dict[j]['value'][i].long
+          
+              })
+     }
+  }
+}
+
+
+
+debugger;
+  var freqMap = new Datamap({
+    element: document.getElementById('container'),
+    scope: 'usa',
+    data_width: '100',
+    geographyConfig: {
+        popupOnHover: true,
+        highlightOnHover: true
+    },
+    strokes : '0',
+    fills: {
+        'first': firstColor,
+        'second': secondColor,
+        'third': thirdColor,
+        'forth': lastColor,
+        defaultFill: '#B7C5C5'
+    }
+});
+
+
+
+var frequencyData = freData.cnt;
+ 
+
+//draw bubbles for frequencyData
+freqMap.bubbles(frequencyData, {
+    popupTemplate: function (geo, data) {
+            return ['<div class="hoverinfo">' +  data.name,
+            '<br/>Frequency: ' +  data.freq + ' tweet(s)',
+            '</div>'].join('');
+    }
+});
+});
+
+
+
+</script>
+
+
+
+<script>
+  function legendDemo() {
+
+  sampleNumerical = [100,400,800,1400];
+  sampleThreshold = d3.scale.threshold().domain(sampleNumerical).range(
+      [firstColor,secondColor,thirdColor,lastColor]);
+  horizontalLegend = d3.svg.legend().units("Freq").cellWidth(45).cellHeight(15).inputScale(sampleThreshold).cellStepping(100);
+
+  d3.select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(horizontalLegend);
+
+  sampleCategoricalData = ["Something","Something Else", "Another", "This", "That", "Etc"]
+  sampleOrdinal = d3.scale.category20().domain(sampleCategoricalData);
+
+
+  }
+
+</script>
+   </body>    
+ </html>
