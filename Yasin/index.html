@@ -434,6 +434,9 @@ function showNewWords2(vis, words) {
     vis.update(words)
   }
   // Encapsulate the word cloud functionality
+
+  var clickTerms = "a";
+  var clickNo = 0;
   function wordCloud(selector) {
 
     //Draw the word cloud
@@ -479,7 +482,7 @@ function showNewWords2(vis, words) {
               })
                .on("mouseover", function (d) {
                  // console.log(d);
-                 loadDataUpdate("data/diseaseData.csv", "wn", d.text);
+                 // loadDataUpdate("data/diseaseData.csv", "wn", d.text);
               })
 
               .on("mouseout", function (d) {
@@ -487,9 +490,9 @@ function showNewWords2(vis, words) {
                 wordTip.hide();
                 unhighlightLayer();
                 // loadDataUpdate("data/diseaseData.csv", "wn", "all");
-                  showNewWords2(myWordCloud2, topTerms2);
+                  // showNewWords2(myWordCloud2, topTerms2);
         //Set stream graph, topterms.monthfreq contains monthly frequency
-                  updateStreamGraph(topTerms2, false);
+                  // updateStreamGraph(topTerms2, false);
               })
               //handle single and double clicks
               .on("click", function (d) {
@@ -499,9 +502,22 @@ function showNewWords2(vis, words) {
                     if(mapList[i].diseaseName == diseaseNameMap)
                       mapColor = mapList[i].color;
                   }
-                  debugger;
+                  // debugger;
                   showMap(diseaseNameMap,mapColor)
-                  // loadDataUpdate("data/diseaseData.csv", "wn", d.text);
+
+
+                  // svg.selectAll(".cloud-terms")
+                  //           .style("background-color", function (d1, i) {
+                  //             if (d.text == d1.text)
+                  //               d1.active = !d1.active;
+                  //             if (d1.active == undefined || d1.active == false)
+                  //               return "black";
+                  //             else
+                  //               return streamColor(i);
+                  //           })
+                  // highlightLayer(d);
+                  // highlightWord(d);
+                   loadDataUpdate("data/diseaseData.csv", "wn", d.text);
               })
 
       //Entering and existing words
@@ -665,22 +681,7 @@ function showNewWords2(vis, words) {
     }
   }
 
-  function brushend() {
-    start = brush.extent()[0];
-    end = brush.extent()[1];
 
-    $("#tagCloud").addClass("loading");
-    setTimeout(function () {
-      // updateVisualization();
-      svg.selectAll(".cloud-terms").style("fill", function (d, i) {
-
-        return catcolors[d.term];
-
-      })
-      $("#tagCloud").removeClass("loading");
-    }, 0);
-
-  }
 
   // function updateVisualization() {
 
@@ -1062,6 +1063,10 @@ function showNewWords2(vis, words) {
       return localMax;
     })]);
 
+        // TODO: Sort topTerms by category.
+    topTerms.sort(function(a, b) {
+      return a.freq - b.freq;
+    });
     // Stacked layers.
     var stackLayers = timeline2.selectAll(".layer")
             .data(layers);
