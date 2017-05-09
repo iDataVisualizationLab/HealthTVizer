@@ -1,60 +1,54 @@
 <meta charset="utf-8">
+
+
+
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://d3js.org/d3.v3.js"></script>
 
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  <script src="datamaps.usa.min.js"></script>
+  <script src="colorbrewer.v1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="js/hashtable.js"></script>
   <script src="js/d3cloud.js"></script>
   <script src="js/d3-tooltip.js"></script>
   <script src="js/terms-generator.js"></script>
   <script src="js/cmatrix.js"></script>
+  <script src="legend.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/app.css">
-  <script>
-    $(document).ready(function () {
-      $(document.getElementsByName("chartType")).on('click', function () {
-        if (this.id == "overview") {
-          $("#relationshipTerm").attr("disabled", true);
-        } else {
-          $("#relationshipTerm").attr("disabled", false);
-        }
-      });
-    });
-  </script>
+  
   <link rel="stylesheet" type="text/css" href="style.css">
-  <title>Text Visualization</title>
+  
 </head>
 
 <body>
-<h1>Text Visualization</h1>
-<div id="visualizations">
-  <div id="options">
-    <div id="bottomOptions">
 
-    </div>
-  </div>
-  <div id="left">
+  
+<div id="footer4"> </div>
 
-    <div id="tagCloud" class="active">
-    </div>
-    <div id="relationshipChart" class="inactive">
-    </div>
+<div id="footer3">
+  <div id="container" ></div>
   </div>
-  <div id="timeline">
-  </div>
-
-    <div id="left2">
-
-    <div id="tagCloud2" class="active">
-    </div>
-    <div id="relationshipChart2" class="inactive">
-    </div>
-  </div>
-  <div id="timeline2">
-  </div>
+    
+<div id="footer">
+    <div id="tagCloud" runat="server"></div>
+    <div id="timeline" runat="server"></div>
+       
 </div>
-</body>
+
+<div id="footer2">
+    <div id="tagCloud2" runat="server"></div>
+    <div id="timeline2" runat="server"></div>
+       
+</div>
+
+
+
+
+
 
 <script>
   var source = "wn";
@@ -97,19 +91,20 @@
   zeroSeries = fillData(zeroSeries, startDate, endDate);
 
   //cloud svg width and height
-  var cloudWidth = $("#tagCloud").width();
+  var cloudWidth1 = $("#tagCloud").width();
+  var cloudWidth2 = $("#tagCloud2").width();
   var cloudHeight = 500;
   var svg = d3.select("#tagCloud").append("svg")
-          .attr("width", cloudWidth)
+          .attr("width", cloudWidth1)
           .attr("height", cloudHeight)
           .append("g")
-          .attr("transform", "translate(" + cloudWidth / 2 + "," + cloudHeight / 2 + ")");
+          .attr("transform", "translate(" + cloudWidth1 / 2 + "," + cloudHeight / 2 + ")");
 
-    var svg2 = d3.select("#tagCloud2").append("svg")
-          .attr("width", cloudWidth)
+  var svg2 = d3.select("#tagCloud2").append("svg")
+          .attr("width", cloudWidth2)
           .attr("height", cloudHeight)
           .append("g")
-          .attr("transform", "translate(" + cloudWidth / 2 + "," + cloudHeight / 2 + ")");
+          .attr("transform", "translate(" + cloudWidth2 / 2 + "," + cloudHeight / 2 + ")");
 
   /* Initialize tooltip */
   var wordTip = d3.tip()
@@ -156,11 +151,11 @@
   function loadData(filename, source) {
    
     var data = preProcessData();
-      console.log(data);
+      // console.log(data);
      var data2 = preProcessData2();
-    console.log(data2);
+    // console.log(data2);
     data.startProcess(filename, function (data) {
-      console.log(data)
+      // console.log(data)
     var localallTermsArray = [];
     var localallTermsMap;
       cloudmessages.attr("opacity", 1);
@@ -194,7 +189,7 @@
 
         localallTermsArray.push(entry)
       }
-      console.log(localallTermsArray);
+      // console.log(localallTermsArray);
       // debugger;
 
         wnallTermsArray = localallTermsArray;
@@ -211,7 +206,7 @@
   data2.startProcess2(filename, function (data) {
            var localallTermsArray = [];
     var localallTermsMap;
-      console.log(data)
+      // console.log(data)
       cloudmessages.attr("opacity", 1);
       localallTermsMap = data;
       var monthly = [];
@@ -259,11 +254,11 @@
 
     function loadDataUpdate(filename, source, dName) {
      var data3 = preProcessData3(dName);
-    console.log(data3);
+    // console.log(data3);
   data3.startProcess3(filename, function (data) {
            var localallTermsArray = [];
     var localallTermsMap;
-      console.log(data)
+      // console.log(data)
       cloudmessages.attr("opacity", 1);
       localallTermsMap = data;
       var monthly = [];
@@ -407,7 +402,7 @@
       }
     }
 
-     console.log(topTerms);
+     // console.log(topTerms);
      // debugger;
     return topTerms;
   }
@@ -443,7 +438,7 @@ function showNewWords2(vis, words) {
 
     //Draw the word cloud
     function draw(words) {
-      console.log(words);
+      // console.log(words);
        words.sort(function(a, b) {
       return a.frequency -b.frequency;
     });
@@ -452,6 +447,10 @@ function showNewWords2(vis, words) {
                 return d.text;
               })
 
+      mappingDiseaseNameColor = {diseaseName: '', color : ''};
+      mapList = []
+      k = 0;
+      
       //Entering words
       cloud.enter().append("text")
               .style("font-size", function (d) {
@@ -459,7 +458,9 @@ function showNewWords2(vis, words) {
               })
               .style("font-family", "Impact")
               .style("fill", function (d, i) {
+                 mapList[i] = {diseaseName: d.text, color: streamColor(i)};
                  return streamColor(i);
+
               })
               .style("cursor", "pointer")
               .style("pointer-events", "all")
@@ -477,7 +478,7 @@ function showNewWords2(vis, words) {
                 highlightLayer({term: d.text});
               })
                .on("mouseover", function (d) {
-                 console.log(d);
+                 // console.log(d);
                  loadDataUpdate("data/diseaseData.csv", "wn", d.text);
               })
 
@@ -492,7 +493,14 @@ function showNewWords2(vis, words) {
               })
               //handle single and double clicks
               .on("click", function (d) {
-                  console.log(d);
+                  // console.log(d);
+                  diseaseNameMap = d.text;
+                  for(i = 0 ; i < mapList.length; i++){
+                    if(mapList[i].diseaseName == diseaseNameMap)
+                      mapColor = mapList[i].color;
+                  }
+                  debugger;
+                  showMap(diseaseNameMap,mapColor)
                   // loadDataUpdate("data/diseaseData.csv", "wn", d.text);
               })
 
@@ -534,7 +542,7 @@ function showNewWords2(vis, words) {
         sizeScale.range([newLowRange, newHighRange]);
 
 
-        d3.layout.cloud().size([cloudWidth, cloudHeight])
+        d3.layout.cloud().size([cloudWidth1, cloudHeight])
                 .timeInterval(Infinity)
                 .words(words.map(function (d) {
                   return {text: d.term, size: sizeScale(d.freq), frequency: d.freq, active: true, category: d.category};
@@ -556,7 +564,7 @@ function showNewWords2(vis, words) {
 
     //Draw the word cloud
     function draw(words) {
-      console.log(words);
+      // console.log(words);
        words.sort(function(a, b) {
       return a.frequency -b.frequency;
     });
@@ -596,7 +604,7 @@ function showNewWords2(vis, words) {
               })
               //handle single and double clicks
               .on("click", function (d) {
-                  console.log(d);
+                  // console.log(d);
               })
 
 
@@ -638,7 +646,7 @@ function showNewWords2(vis, words) {
         sizeScale.range([newLowRange, newHighRange]);
 
 
-        d3.layout.cloud().size([cloudWidth, cloudHeight])
+        d3.layout.cloud().size([cloudWidth2, cloudHeight])
                 .timeInterval(Infinity)
                 .words(words.map(function (d) {
                   return {text: d.term, size: sizeScale(d.freq), frequency: d.freq, active: true, category: d.category};
@@ -759,7 +767,7 @@ function showNewWords2(vis, words) {
     topTerms.sort(function(a, b) {
       return a.freq - b.freq;
     });
-console.log(topTerms);
+// console.log(topTerms);
     layers = stack(topTerms);
 
     timelineX.domain([endDate, startDate]);
@@ -864,7 +872,7 @@ console.log(topTerms);
 
     // Define dimensions.
     var margin = {top: 20, right: 0, bottom: 30, left: 40};
-    var svgWidth = $("#timeline").width();
+    var svgWidth = $("#timeline2").width();
     var svgHeight = 500;
     var width = svgWidth * 0.98 - margin.left - margin.right;
     var height = svgHeight - margin.bottom - margin.top;
@@ -915,7 +923,7 @@ console.log(topTerms);
     topTerms.sort(function(a, b) {
       return a.freq - b.freq;
     });
-console.log(topTerms);
+// console.log(topTerms);
     layers = stack(topTerms);
 
     timelineX.domain([endDate, startDate]);
@@ -1023,7 +1031,7 @@ console.log(topTerms);
         }
       }
       catch (exc) {
-        console.log(iterator);
+        // console.log(iterator);
         debugger;
       }
       d.push({"month": new Date(now), "freq": y});
@@ -1034,7 +1042,7 @@ console.log(topTerms);
   }
 
   function updateStreamGraph(topTerms, hasTransition) {
-    console.log("here");
+    // console.log("here");
     startDate = maxDate(topTerms);
 
     endDate = minDate(topTerms);
@@ -1285,4 +1293,172 @@ console.log(topTerms);
     else
       return fill(i);
   }
+
+
+
+///Map
+function dedupe(arr) {
+  return arr.reduce(function (p, c) {
+
+    // create an identifying id from the object values
+    var id = [c.lat, c.long].join('|');
+
+    // if the id is not found in the temp array
+    // add the object to the output array
+    // and add the key to the temp array
+    if (p.temp.indexOf(id) === -1) {
+      p.out.push(c);
+      p.temp.push(id);
+    }
+    return p;
+
+  // return the deduped array
+  }, { temp: [], out: [] }).out;
+}
+
+
+
+function showMap(diseaseName, colorMap){
+
+  firstColor = colorMap
+  lastColor = "#000000"
+// secondColor = colorRange(firstColor, lastColor, 0.7)
+// thirdColor = colorRange(secondColor, lastColor,0.55)
+
+color = d3.scale.linear()
+   .domain([-1,0,1])
+    .range([firstColor,lastColor]);
+
+secondColor = color(-0.5)
+thirdColor = color(-0.25)
+ legendDemo();
+d3.json("LocationDiseaseFreq.json", function(error, dict) {
+
+debugger;
+var freData = {cnt:[]};    
+
+//by changing the j you are changing the disease name
+// j = 13 is pysch
+var diseaseIndex;
+for(j = 0 ; j < dict.length; j++){
+  if(dict[j].key == diseaseNameMap){
+    diseaseIndex = j;
+  }
+}
+
+for(i = 0 ; i < dict[diseaseIndex]['value'].length; i++){
+    if(dict[diseaseIndex]['value'][i].cnt <= 100){
+       freData.cnt.push({
+              name: dict[diseaseIndex]['value'][i].location ,
+              freq: dict[diseaseIndex]['value'][i].cnt,
+              fillKey: 'first',
+               radius: Math.sqrt(dict[diseaseIndex]['value'][i].cnt),
+                latitude: dict[diseaseIndex]['value'][i].lat,
+                  longitude: dict[diseaseIndex]['value'][i].long
+          
+              })
+     }
+     if(dict[diseaseIndex]['value'][i].cnt <= 400 && dict[diseaseIndex]['value'][i].cnt >= 101){
+       freData.cnt.push({
+              name: dict[diseaseIndex]['value'][i].location ,
+              freq: dict[diseaseIndex]['value'][i].cnt,
+              fillKey: 'second',
+               radius: Math.sqrt(dict[diseaseIndex]['value'][i].cnt),
+                latitude: dict[diseaseIndex]['value'][i].lat,
+                  longitude: dict[diseaseIndex]['value'][i].long
+          
+              })
+     }
+     if(dict[diseaseIndex]['value'][i].cnt <= 800 && dict[diseaseIndex]['value'][i].cnt >= 401){
+       freData.cnt.push({
+              name: dict[diseaseIndex]['value'][i].location ,
+              freq: dict[diseaseIndex]['value'][i].cnt,
+              fillKey: 'third',
+               radius: Math.sqrt(dict[diseaseIndex]['value'][i].cnt),
+                latitude: dict[diseaseIndex]['value'][i].lat,
+                  longitude: dict[diseaseIndex]['value'][i].long
+          
+              })
+     }
+     if(dict[diseaseIndex]['value'][i].cnt >= 801){
+       freData.cnt.push({
+              name: dict[diseaseIndex]['value'][i].location ,
+              freq: dict[diseaseIndex]['value'][i].cnt,
+              fillKey: 'forth',
+               radius: Math.sqrt(dict[diseaseIndex]['value'][i].cnt),
+                latitude: dict[diseaseIndex]['value'][i].lat,
+                  longitude: dict[diseaseIndex]['value'][i].long
+          
+              })
+     }
+  }
+debugger;
+a = d3.selectAll('.datamaps-hoverover')
+if(a[0].length > 0)
+  a = d3.selectAll('.datamaps-hoverover').remove()
+
+if(document.getElementById('mapSvg') != null)
+  document.getElementById('mapSvg').remove()
+
+debugger;
+  var freqMap = new Datamap({
+    element: document.getElementById('container'),
+    scope: 'usa',
+    data_width: '100',
+    geographyConfig: {
+        popupOnHover: true,
+        highlightOnHover: true
+    },
+    strokes : '0',
+    fills: {
+        'first': firstColor,
+        'second': secondColor,
+        'third': thirdColor,
+        'forth': lastColor,
+        defaultFill: '#e2ddc7'
+    }
+});
+
+
+
+var frequencyData = freData.cnt;
+ 
+
+//draw bubbles for frequencyData
+freqMap.bubbles(frequencyData, {
+    popupTemplate: function (geo, data) {
+            return ['<div class="hoverinfo">' +  data.name,
+            '<br/>Frequency: ' +  data.freq + ' tweet(s)',
+            '</div>'].join('');
+    }
+});
+});
+
+
+}
+
+
 </script>
+
+<script>
+  function legendDemo() {
+
+  sampleNumerical = [100,400,800,1400];
+  sampleThreshold=d3.scale.threshold().domain(sampleNumerical).range(
+      [firstColor,secondColor,thirdColor,lastColor]);
+  horizontalLegend = d3.svg.legend().units("Freq").cellWidth(45).cellHeight(15).inputScale(sampleThreshold).cellStepping(100);
+
+  arr = d3.selectAll('#footer4 svg');
+  if (arr[0].length > 0)
+    d3.selectAll('#footer4 svg').remove()
+
+  d3.select("#footer4").append("svg:svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(horizontalLegend);
+
+  sampleCategoricalData = ["Something","Something Else", "Another", "This", "That", "Etc"]
+  sampleOrdinal = d3.scale.category20().domain(sampleCategoricalData);
+
+
+  }
+
+</script>
+</body>

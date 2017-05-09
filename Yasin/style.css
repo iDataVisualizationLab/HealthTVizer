@@ -1,5 +1,5 @@
 body {
-  background:#ddd;
+  background:white;
   font: 14px Arial;
   width: 90%;
   height: 95%;
@@ -77,42 +77,60 @@ h5 {
   min-height: 40%;
 }
 
-#tagCloud {
-  /*height: 85%;*/
-  width: 100%;
-  padding: 1%;
-  margin: 0px;
+#tagCloud2{
+    width: 40%;
+    float: left;
 }
-#tagCloud2 {
-  /*height: 85%;*/
-  width: 100%;
-  padding: 1%;
-  margin: 0px;
-  min-width: 35%;
-}
-
-#timeline {
-  float: right;
-  /*height: 85%;*/
-  width: 60%;
-  margin: 0px;
-  padding: 1%;
-}
-#timeline2 {
-    float: right;
-    /* height: 85%; */
+#timeline2{
     width: 60%;
-    margin: 0px;
-    padding: 1%;
+    float: right;
+    height: 500px;
 }
 
-#relationshipChart {
-  height: 100%;
-  width: 100%;
-  /*background: #F00;*/
-  margin: 0px;
+#footer2{
+    width: 100%;
+    border: 1px;
+    height: 500px;
 }
 
+
+#footer{
+    width: 100%;
+    border: 1px;
+    height: 500px;
+}
+
+#tagCloud{
+    width: 40%;
+    float: left;
+}
+#timeline{
+    width: 60%;
+    float: right;
+    height: 500px;  
+}
+
+
+#footer3{
+    width: 100%;
+    border: 1px;
+    height: 500px;
+}
+
+#container{
+    position: relative;
+    width: 1000px; 
+    height: 500px; 
+    margin: 0 auto
+    
+}
+
+#footer4{
+    width: 20%;
+    position: center;
+    border: 1px;
+    height: 10px;
+}
 #intervalSlider {
   display: flex;
   width: 90%;
