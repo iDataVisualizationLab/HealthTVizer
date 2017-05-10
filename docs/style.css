@@ -1,0 +1,163 @@
+body {
+  background:white;
+  font: 14px Arial;
+  width: 90%;
+  height: 95%;
+  margin: auto;
+  padding-top: 1%;
+}
+
+body, table {
+  font: 12px Arial;
+}
+
+h5 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+#visualizations {
+  height: 100%;
+  padding:15px;
+  border-radius:3px;
+  box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+  background:#fff;
+}
+
+#options {
+  padding: 15px;
+}
+
+#topOptions {
+  display: inline-block;
+}
+
+#bottomOptions {
+  display: inline-block;
+}
+
+#sourceSelection {
+  float: left;
+  display: inline-block;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+#intervalSelection {
+  float: left;
+  display: inline-block;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+#chartSelection {
+  float: left;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+#numberTermsSelection {
+  float:left;
+  display: inline-block;
+  padding-right: 10px;
+}
+
+#updateButtonContainer {
+  float: left;
+  display: inline-block;
+}
+
+#left {
+  float: left;
+  width: 35%;
+}
+#left2 {
+  float: left;
+  min-width: 35%;
+  min-height: 40%;
+}
+
+#tagCloud2{
+    width: 40%;
+    float: left;
+}
+#timeline2{
+    width: 60%;
+    float: right;
+    height: 500px;
+}
+
+#footer2{
+    width: 100%;
+    border: 1px;
+    height: 500px;
+}
+
+
+#footer{
+    width: 100%;
+    border: 1px;
+    height: 500px;
+}
+
+#tagCloud{
+    width: 40%;
+    float: left;
+}
+#timeline{
+    width: 60%;
+    float: right;
+    height: 500px;  
+}
+
+
+#footer3{
+    width: 100%;
+    border: 1px;
+    height: 500px;
+}
+
+#container{
+    position: relative;
+    width: 1000px; 
+    height: 500px; 
+    margin: 0 auto
+    
+}
+
+#footer4{
+    width: 20%;
+    position: center;
+    border: 1px;
+    height: 10px;
+}
+#intervalSlider {
+  display: flex;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1%;
+  justify-content: center;
+}
+
+.active {
+  display:inline-block;
+}
+
+.inactive {
+  display: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}  
+
+.layerLine { 
+    stroke: black;
+    stroke-width: 0.02;
+    fill: none;
+  }
