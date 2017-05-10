@@ -478,7 +478,7 @@ function showNewWords2(vis, words) {
               .on("mousemove", function (d) {
                 //  d3.select(this).attr("opacity", "0.6");
                 wordTip.show(d, this);
-                highlightLayer({term: d.text});
+                // highlightLayer({term: d.text});
               })
                .on("mouseover", function (d) {
                  // console.log(d);
@@ -486,9 +486,9 @@ function showNewWords2(vis, words) {
               })
 
               .on("mouseout", function (d) {
-                d3.select(this).attr("opacity", "1");
+                // d3.select(this).attr("opacity", "1");
                 wordTip.hide();
-                unhighlightLayer();
+                
                 // loadDataUpdate("data/diseaseData.csv", "wn", "all");
                   // showNewWords2(myWordCloud2, topTerms2);
         //Set stream graph, topterms.monthfreq contains monthly frequency
@@ -517,7 +517,18 @@ function showNewWords2(vis, words) {
                   //           })
                   // highlightLayer(d);
                   // highlightWord(d);
+                  if(clickNo==0){
+                   highlightLayer({term: d.text});
+                   highlightWord(d);
                    loadDataUpdate("data/diseaseData.csv", "wn", d.text);
+                   clickNo = 1;
+                 }
+                 else
+                 {
+                  unhighlightLayer();
+                  unHighlightWord();
+                  clickNo = 0;
+                 }
               })
 
       //Entering and existing words
@@ -1180,6 +1191,36 @@ function showNewWords2(vis, words) {
             .each(function (d1) {
               var currentText = d3.select(this);
               if (d1.text == d.term) {
+                wordTip.show(d1, this);
+                currentText.attr("opacity", "1");
+              } else {
+                currentText.attr("opacity", "0.1");
+              }
+            });
+    if ($("#relationshipChart").hasClass("active")) {
+      wordTip.hide();
+
+      container.selectAll("path.chord").style("opacity", function (p) {
+        // COMPARE CHORD IDS
+        return (p.source._id === d.term || p.target._id == d.term) ? 1 : 0.1;
+
+
+      });
+      container.selectAll(".group").select("path").style("opacity", function (p) {
+        if (p._id == d.term)
+          return 1
+        else
+          return 0.1
+
+      });
+
+    }
+  }
+    function highlightWord(d) {
+    var cloudText = svg.selectAll("g text")
+            .each(function (d1) {
+              var currentText = d3.select(this);
+              if (d1.text == d.text) {
                 wordTip.show(d1, this);
                 currentText.attr("opacity", "1");
               } else {
