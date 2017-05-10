@@ -1,3 +1,3 @@
 # HealthTVizer
 
-https://idatavisualizationlab.github.io/HealthTvizer/
+Online demo: https://idatavisualizationlab.github.io/HealthTvizer/
