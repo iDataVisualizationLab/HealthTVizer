@@ -503,15 +503,22 @@ function showNewWords2(vis, words) {
 
                   if(clickNo==0){
                    highlightLayer({term: d.text});
-                   highlightWord2(d);
+                   highlightWord3(d);
                    loadDataUpdate("data/diseaseData.csv", "wn", d.text);
                    clickNo = 1;
+                   console.log("click if")
                  }
                  else
                  {
+                  console.log("click else")
+                  d3.select(this).attr("opacity", "1");
                   unhighlightLayer();
                   unHighlightWord();
                   clickNo = 0;
+                  wordTip.hide();
+                  showNewWords2(myWordCloud2, topTerms2);
+                  //Set stream graph, topterms.monthfreq contains monthly frequency
+                  updateStreamGraph(topTerms2, false);
                  }
               })
 
@@ -1200,7 +1207,7 @@ function showNewWords2(vis, words) {
 
     }
   }
-    function highlightWord2(d) {
+    function highlightWord3(d) {
     var cloudText = svg.selectAll("g text")
             .each(function (d1) {
               var currentText = d3.select(this);
