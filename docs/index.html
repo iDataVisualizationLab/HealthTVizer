@@ -1603,7 +1603,7 @@ for(j = 0 ; j < userData.length; j++){
 }
 
 neurologicalUser = {diseaseName:'', value:[]}
-neurologicalUser.diseaseName = "cancer";
+neurologicalUser.diseaseName = "Neurological";
 neurologicalUser.value = frequencyUser(neurologicalList);
 
 cancerUser = {diseaseName:'', value:[]}
@@ -1689,6 +1689,7 @@ cardiovascularUser.value = frequencyUser(cardiovascularList);
 
 
 diseaseUser = [];
+diseaseUser.push(neurologicalUser)
 diseaseUser.push(cardiovascularUser);
 diseaseUser.push(skinUser);
 diseaseUser.push(reprodcutiveUser);
