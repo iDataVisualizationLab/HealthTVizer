@@ -255,13 +255,12 @@ var myData = [];
 
   function myLocalData(diseaseName){
         globalData.filter(function (d) {
-        return (d.diseaseName == "cancer");
+        return (d.diseaseName == diseaseName);
       });
     }
 
    console.log(globalData);
-   myData = myLocalData("cancer");
-   console.log(myData);
+   console.log(myLocalData("cancer"));
 
     function loadDataUpdate(filename, source, dName) {
      var data3 = preProcessData3(dName);
