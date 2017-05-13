@@ -254,15 +254,14 @@ var myData = [];
  
 
   function myLocalData(diseaseName){
-        globalData.forEach(function (d) {
-        if(d.diseaseName == "cancer"){
-            myData.push(d);
-      }
-    });
-  }
+        globalData.filter(function (d) {
+        return (d.diseaseName == "cancer");
+      });
+    }
+
    console.log(globalData);
-   myLocalData("cancer");
-   console.log(myData)
+   myData = myLocalData("cancer");
+   console.log(myData);
 
     function loadDataUpdate(filename, source, dName) {
      var data3 = preProcessData3(dName);
