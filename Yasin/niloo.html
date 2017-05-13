@@ -1,0 +1,294 @@
+<html>
+<body>
+<style>
+    table, td {
+    border: 0.5px solid black;
+}
+.input {
+    background-color: white;
+    border-radius: 25px;
+    padding: 2.5px;
+    border: 1px solid;
+    width:100px;
+    height: 18px;
+}
+
+body{
+  font: 300 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+svg{
+    display: block;
+    margin: auto;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #003366;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.tab {
+    float: left;
+      text-align: center;
+      list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #003366;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+li {
+
+}
+li p {
+  
+    display: block;
+    color: white;
+    padding: 16px;
+    margin: auto;
+    text-decoration: none;
+}
+.main {
+    padding: 16px;
+    margin-top: 30px;
+    height: 1500px; /* Used in this example to enable scrolling */
+}
+.textbox {
+   text-align: center;
+
+}
+.input {
+    width: 200px;
+    height: 30px;
+
+}
+
+.button {
+    background-color: white;
+    border-radius: 25px;
+    border: 1px solid;
+    border-color: gray;
+    width:80px;
+    padding: 1px;
+    height: 30px;
+    background: gainsboro;
+}
+
+
+@import "http://fonts.googleapis.com/css?family=Montserrat:300,400,700";
+.rwd-table {
+  margin: 1em 0;
+  min-width: 300px;
+}
+.rwd-table tr {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.rwd-table th {
+  display: none;
+}
+.rwd-table td {
+  display: block;
+}
+.rwd-table td:first-child {
+  padding-top: .5em;
+}
+.rwd-table td:last-child {
+  padding-bottom: .5em;
+}
+.rwd-table td:before {
+  content: attr(data-th) ": ";
+  font-weight: bold;
+  width: 6.5em;
+  display: inline-block;
+}
+@media (min-width: 480px) {
+  .rwd-table td:before {
+    display: none;
+  }
+}
+.rwd-table th, .rwd-table td {
+  text-align: left;
+}
+@media (min-width: 480px) {
+  .rwd-table th, .rwd-table td {
+    display: table-cell;
+    padding: .25em .5em;
+  }
+  .rwd-table th:first-child, .rwd-table td:first-child {
+    padding-left: 0;
+  }
+  .rwd-table th:last-child, .rwd-table td:last-child {
+    padding-right: 0;
+  }
+}
+
+body {
+  padding: 0 2em;
+  font-family: Montserrat, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: #444;
+  background: #eee;
+}
+
+h1 {
+  font-weight: normal;
+  letter-spacing: -1px;
+  color: #34495E;
+}
+
+.rwd-table {
+  background: #34495E;
+  color: #fff;
+  border-radius: .4em;
+  overflow: hidden;
+}
+.rwd-table tr {
+  border-color: #46637f;
+}
+.rwd-table th, .rwd-table td {
+  margin: .5em 1em;
+}
+@media (min-width: 480px) {
+  .rwd-table th, .rwd-table td {
+    padding: 1em !important;
+  }
+}
+.rwd-table th, .rwd-table td:before {
+  color: #dd5;
+}
+
+
+
+
+
+</style>
+
+
+<div class="tab">
+  <li> <p>Bioinformatic</p></li>
+</div>
+
+<div style="height: 70px; "></div>
+
+<div class="textbox">
+    <input type="text"  class="input" id="pdb_id" value="PDB ID">
+    <button type="button" class="button" onclick="idValue()">first 10!</button>
+    <button type="button" class="button" id="myBtn">Next 10</button>
+    
+</div>
+<div>
+
+<div style="height: 70px; "></div>
+<table  align="right" class="table" id="myTable"></table>
+</div>
+
+
+
+<div style="position: relative; left: 30%">
+    <h1>RWD List to Table</h1>
+    <table class="rwd-table"></table>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+	function idValue(){
+	id = document.getElementById('pdb_id').value
+	requestUrl = "https://files.rcsb.org/view/"+id+".pdb"
+
+	debugger
+
+
+var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() { 
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+
+        anHttpRequest.open( "GET", aUrl, true );            
+        anHttpRequest.send( null );
+    }
+}
+
+var client = new HttpClient();
+client.get(requestUrl, function(response) {
+	debugger;
+    var outputlist = response.split("\n");
+    delete outputlist[0]
+    delete outputlist[1]
+    var desireList = []
+   
+    for(i = 2; i < outputlist.length; i++){
+    	temp = outputlist[i].split(" ")[0]
+    	if( temp == "ATOM" || temp == "HETATM"){
+    		
+    			desireList.push(outputlist[i]);
+
+    	}
+    }
+
+first = false;
+var table = document.getElementsByClassName("rwd-table")[0];
+if(desireList.length > 0){
+  first = true;
+   var temp = desireList.splice(0,10)
+    pageSize += 10;
+    
+    for(i = 0 ; i < temp.length; i++){
+        row = table.insertRow(i)
+        cell1 = row.insertCell(0)
+        cell2 = row.insertCell(1)
+        cell1.innerHTML = temp[i].split(' ')[0]
+        a = temp[i].split(' ')
+        var index = a.indexOf(temp[i].split(' ')[0]);
+        list = a.splice(index+1, temp[i].split(' ').length);
+        cell2.innerHTML = list.toString().replace(/,/g, " ")
+
+    }
+}
+
+
+  var pageSize = 10;
+  
+
+  document.getElementById("myBtn").addEventListener("click", function(){
+   
+   if(first==true){
+      var temp = desireList.splice(pageSize,pageSize+10)
+      pageSize += 10;
+      
+      for(i = 0 ; i < temp.length; i++){
+          row = table.insertRow(i)
+          cell1 = row.insertCell(0)
+          cell2 = row.insertCell(1)
+          cell1.innerHTML = temp[i].split(' ')[0]
+          a = temp[i].split(' ')
+          var index = a.indexOf(temp[i].split(' ')[0]);
+          list = a.splice(index+1, temp[i].split(' ').length);
+          cell2.innerHTML = list.toString().replace(/,/g, " ")
+
+      }
+    }
+  })
+
+   
+
+});
+}
+</script>
+
+
+</body>
+</html>

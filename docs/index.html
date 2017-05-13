@@ -27,11 +27,10 @@
 <body>
 
   
-<div id="footer4"> </div>
-
 <div id="footer3">
+  <div id="footer4"> </div>
   <div id="container" ></div>
-  </div>
+</div>
     
 <div id="footer">
     <div id="tagCloud" runat="server"></div>
@@ -45,6 +44,10 @@
        
 </div>
 
+
+<div class="chart" id="userFreq">
+
+</div>
 
 
 
@@ -814,8 +817,8 @@ function showNewWords2(vis, words) {
             .attr("class", "layer")
             .call(updateLayer)
             .on("mouseover", function (d) {
-              highlightLayer(d);
-              highlightWord(d);
+              // highlightLayer(d);
+              // highlightWord(d);
             })
             .on("mouseout", function () {
               unhighlightLayer();
@@ -1363,8 +1366,42 @@ function dedupe(arr) {
   }, { temp: [], out: [] }).out;
 }
 
+  function uniq_fast(a) {
+    var seen = {};
+    var out = [];
+    var len = a.length;
+    var j = 0;
+    for(var i = 0; i < len; i++) {
+         var item = a[i];
+         if(seen[item] !== 1) {
+               seen[item] = 1;
+               out[j++] = item;
+         }
+    }
+    return out;
+}
+
+function frequencyUser(list){
+  var counts = {};
+
+  for(var i = 0; i< list.length; i++) {
+      var num = list[i];
+      counts[num] = counts[num] ? counts[num]+1 : 1;
+  }
 
 
+  var sortable = [];
+  for (var user in counts) {
+      sortable.push([user, counts[user]]);
+  }
+
+  sortable.sort(function(a, b) {
+      return b[1] - a[1];
+  });
+
+
+  return sortable.slice(0,20);
+}
 function showMap(diseaseName, colorMap){
 
   firstColor = colorMap
@@ -1378,7 +1415,7 @@ color = d3.scale.linear()
 
 secondColor = color(-0.5)
 thirdColor = color(-0.25)
- legendDemo();
+
 d3.json("LocationDiseaseFreq.json", function(error, dict) {
 
 // debugger;
@@ -1393,8 +1430,14 @@ for(j = 0 ; j < dict.length; j++){
   }
 }
 
+
+maxLegend = Math.max.apply(Math,dict[diseaseIndex]['value'].map(function(o){return o.cnt;}))
+minLegend = Math.min.apply(Math,dict[diseaseIndex]['value'].map(function(o){return o.cnt;}))
+portion = (maxLegend + minLegend) / 4;
+legendDemo();
+
 for(i = 0 ; i < dict[diseaseIndex]['value'].length; i++){
-    if(dict[diseaseIndex]['value'][i].cnt <= 100){
+    if(dict[diseaseIndex]['value'][i].cnt < minLegend + portion){
        freData.cnt.push({
               name: dict[diseaseIndex]['value'][i].location ,
               freq: dict[diseaseIndex]['value'][i].cnt,
@@ -1404,8 +1447,9 @@ for(i = 0 ; i < dict[diseaseIndex]['value'].length; i++){
                   longitude: dict[diseaseIndex]['value'][i].long
           
               })
-     }
-     if(dict[diseaseIndex]['value'][i].cnt <= 400 && dict[diseaseIndex]['value'][i].cnt >= 101){
+      }
+     
+     if(dict[diseaseIndex]['value'][i].cnt < minLegend + (2*portion) && dict[diseaseIndex]['value'][i].cnt >= minLegend + portion){
        freData.cnt.push({
               name: dict[diseaseIndex]['value'][i].location ,
               freq: dict[diseaseIndex]['value'][i].cnt,
@@ -1416,7 +1460,7 @@ for(i = 0 ; i < dict[diseaseIndex]['value'].length; i++){
           
               })
      }
-     if(dict[diseaseIndex]['value'][i].cnt <= 800 && dict[diseaseIndex]['value'][i].cnt >= 401){
+     if(dict[diseaseIndex]['value'][i].cnt < minLegend + (3*portion) && dict[diseaseIndex]['value'][i].cnt >= minLegend + (2*portion)){
        freData.cnt.push({
               name: dict[diseaseIndex]['value'][i].location ,
               freq: dict[diseaseIndex]['value'][i].cnt,
@@ -1427,7 +1471,7 @@ for(i = 0 ; i < dict[diseaseIndex]['value'].length; i++){
           
               })
      }
-     if(dict[diseaseIndex]['value'][i].cnt >= 801){
+     if(dict[diseaseIndex]['value'][i].cnt >= minLegend + (3*portion)){
        freData.cnt.push({
               name: dict[diseaseIndex]['value'][i].location ,
               freq: dict[diseaseIndex]['value'][i].cnt,
@@ -1479,6 +1523,296 @@ freqMap.bubbles(frequencyData, {
             '</div>'].join('');
     }
 });
+
+d3.json("userData.json", function(error, userData){
+
+  debugger;
+
+cancerUserList = [];
+bloodUserList = [];
+psychUserList = [];
+
+rareDiseaseList = [];
+excretoryList = [];
+injuryList = [];
+musculoskeletalList = [];
+multipleList = [];
+neurologicalList = [];
+immuneList = [];
+congenitalList = [];
+infectiousList = [];
+reprodcutiveList = [];
+senseOrgansList = [];
+lymphaticList = [];
+digestiveList = [];
+metabolicList = [];
+respiratoryList = [];
+skinList = [];
+cardiovascularList = [];
+
+for(j = 0 ; j < userData.length; j++){
+  for(i = 0 ; i < userData[j].value.length; i++){
+    if(userData[j].value[i].diseaseName == "cancer")
+      cancerUserList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "blood")
+      bloodUserList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "Psych")
+      psychUserList.push(userData[i].userId);
+
+    if(userData[j].value[i].diseaseName == "RareDiseases")
+      rareDiseaseList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "Excretory")
+      excretoryList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "Injury")
+      injuryList.push(userData[i].userId);
+
+    if(userData[j].value[i].diseaseName == "Musculoskeletal")
+      musculoskeletalList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "Multiple")
+      multipleList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "Neurological")
+      neurologicalList.push(userData[i].userId);
+
+    if(userData[j].value[i].diseaseName == "Immune")
+      immuneList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "CongenitalAnomolies")
+      congenitalList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "InfectiousParasitic")
+      infectiousList.push(userData[i].userId);
+
+    if(userData[j].value[i].diseaseName == "Reproductive")
+      reprodcutiveList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "SenseOrgansSkin")
+      senseOrgansList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "Lymphatic")
+      lymphaticList.push(userData[i].userId);
+
+    if(userData[j].value[i].diseaseName == "Digestive")
+      digestiveList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "Metabolic")
+      metabolicList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "Respiratory")
+      respiratoryList.push(userData[i].userId);
+
+    if(userData[j].value[i].diseaseName == "Skin")
+      skinList.push(userData[i].userId);
+    if(userData[j].value[i].diseaseName == "cardiovascular")
+      cardiovascularList.push(userData[i].userId);
+
+  }
+}
+
+cancerUser = {diseaseName:'', value:[]}
+cancerUser.diseaseName = "cancer";
+cancerUser.value = frequencyUser(cancerUserList);
+
+bloodUser = {diseaseName:'', value:[]}
+bloodUser.diseaseName = "blood"
+bloodUser.value = frequencyUser(bloodUserList);
+
+psychUser = {diseaseName:'', value:[]}
+psychUser.diseaseName = "Psych";
+psychUser.value = frequencyUser(psychUserList);
+
+
+rareDiseaseUser = {diseaseName:'', value:[]}
+rareDiseaseUser.diseaseName = "RareDiseases";
+rareDiseaseUser.value = frequencyUser(rareDiseaseList);
+
+excretoryUser = {diseaseName:'', value:[]}
+excretoryUser.diseaseName = "Excretory"
+excretoryUser.value = frequencyUser(excretoryList);
+
+injuryUser = {diseaseName:'', value:[]}
+injuryUser.diseaseName = "Injury";
+injuryUser.value = frequencyUser(injuryList);
+
+
+musculoskeletaUser = {diseaseName:'', value:[]}
+musculoskeletaUser.diseaseName = "Musculoskeletal";
+musculoskeletaUser.value = frequencyUser(musculoskeletalList);
+
+multipleUser = {diseaseName:'', value:[]}
+multipleUser.diseaseName = "Multiple"
+multipleUser.value = frequencyUser(multipleList);
+
+immuneUser = {diseaseName:'', value:[]}
+immuneUser.diseaseName = "Immune";
+immuneUser.value = frequencyUser(immuneList);
+
+
+congenitalUser = {diseaseName:'', value:[]}
+congenitalUser.diseaseName = "CongenitalAnomolies";
+congenitalUser.value = frequencyUser(congenitalList);
+
+infectiousUser = {diseaseName:'', value:[]}
+infectiousUser.diseaseName = "InfectiousParasitic"
+infectiousUser.value = frequencyUser(infectiousList);
+
+reprodcutiveUser = {diseaseName:'', value:[]}
+reprodcutiveUser.diseaseName = "Reproductive";
+reprodcutiveUser.value = frequencyUser(reprodcutiveList);
+
+
+senseOrgansUser = {diseaseName:'', value:[]}
+senseOrgansUser.diseaseName = "SenseOrgansSkin";
+senseOrgansUser.value = frequencyUser(senseOrgansList);
+
+lymphaticUser = {diseaseName:'', value:[]}
+lymphaticUser.diseaseName = "Lymphatic"
+lymphaticUser.value = frequencyUser(lymphaticList);
+
+digestiveUser = {diseaseName:'', value:[]}
+digestiveUser.diseaseName = "Digestive";
+digestiveUser.value = frequencyUser(digestiveList);
+
+
+metabolicUser = {diseaseName:'', value:[]}
+metabolicUser.diseaseName = "Metabolic";
+metabolicUser.value = frequencyUser(metabolicList);
+
+respiratoryUser = {diseaseName:'', value:[]}
+respiratoryUser.diseaseName = "Respiratory"
+respiratoryUser.value = frequencyUser(respiratoryList);
+
+skinUser = {diseaseName:'', value:[]}
+skinUser.diseaseName = "Skin"
+skinUser.value = frequencyUser(skinList);
+
+cardiovascularUser = {diseaseName:'', value:[]}
+cardiovascularUser.diseaseName = "cardiovascular"
+cardiovascularUser.value = frequencyUser(cardiovascularList);
+
+
+diseaseUser = [];
+diseaseUser.push(cardiovascularUser);
+diseaseUser.push(skinUser);
+diseaseUser.push(reprodcutiveUser);
+diseaseUser.push(metabolicUser);
+diseaseUser.push(digestiveUser);
+diseaseUser.push(lymphaticUser);
+diseaseUser.push(senseOrgansUser);
+diseaseUser.push(reprodcutiveUser);
+diseaseUser.push(infectiousUser);
+diseaseUser.push(congenitalUser);
+diseaseUser.push(respiratoryUser);
+diseaseUser.push(immuneUser);
+diseaseUser.push(multipleUser);
+diseaseUser.push(musculoskeletaUser);
+diseaseUser.push(injuryUser);
+diseaseUser.push(excretoryUser);
+diseaseUser.push(rareDiseaseUser);
+diseaseUser.push(psychUser);
+diseaseUser.push(bloodUser);
+diseaseUser.push(cancerUser);
+debugger;
+
+for(i = 0 ; i < diseaseUser.length; i++){
+  if(diseaseUser[i].diseaseName == diseaseNameMap){
+    data = [];
+    for(p = 0 ; p < diseaseUser[i].value.length; p++)
+        data.push(diseaseUser[i])
+  }
+}
+
+d3.selectAll('#userFreq svg').remove()
+
+var div = d3.select(".chart").append("div").attr("class", "toolTip");
+
+    var axisMargin = 20,
+            margin = 40,
+            valueMargin = 4,
+            width = parseInt(d3.select('body').style('width'), 10),
+            height = parseInt(d3.select('body').style('height'), 10),
+            barHeight = (height-axisMargin-margin*2)* 0.4/data.length,
+            barPadding = (height-axisMargin-margin*2)*0.6/data.length,
+            data, bar, svg, scale, xAxis, labelWidth = 0;
+
+    max = d3.max(data[0].value, function(d) { return d[1]; });
+
+    svg = d3.select('.chart')
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+
+    bar = svg.selectAll("g")
+            .data(data[0].value)
+            .enter()
+            .append("g");
+
+    bar.attr("class", "bar")
+            .attr("cx",0)
+            .attr("transform", function(d, i) {
+                return "translate(" + margin + "," + (i * (barHeight + barPadding) + barPadding) + ")";
+            });
+
+    bar.append("text")
+            .attr("class", "label")
+            .attr("y", barHeight / 2)
+            .attr("fill", mapColor)
+            .attr("dy", ".35em") //vertical align middle
+            .text(function(d){
+                return d[0];
+            }).each(function() {
+        labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
+    });
+
+    scale = d3.scale.linear()
+            .domain([0, max])
+            .range([0, width - margin*2 - labelWidth]);
+
+    xAxis = d3.svg.axis()
+            .scale(scale)
+            .tickSize(-height + 2*margin + axisMargin)
+            .orient("bottom");
+
+    bar.append("rect")
+            .attr("transform", "translate("+labelWidth+", 0)")
+            .attr("height", barHeight)
+            .attr("width", function(d){
+                return scale(d[1]);
+            });
+
+    bar.append("text")
+            .attr("class", "value")
+            .attr("y", barHeight / 2)
+            .attr("dx", -valueMargin + labelWidth) //margin right
+            .attr("dy", ".35em") //vertical align middle
+            .attr("text-anchor", "end")
+            .text(function(d){
+                return (d[1]);
+            })
+            .attr("x", function(d){
+                var width = this.getBBox().width;
+                return Math.max(width + valueMargin, scale(d[1]));
+            });
+
+    bar
+            .on("mousemove", function(d){
+                div.style("left", d3.event.pageX+10+"px");
+                div.style("top", d3.event.pageY-25+"px");
+                div.style("display", "inline-block");
+                div.html((d[0])+"<br>"+(d[1]));
+            });
+    bar
+            .on("mouseout", function(d){
+                div.style("display", "none");
+            });
+
+    svg.insert("g",":first-child")
+            .attr("class", "axisHorizontal")
+            .attr("transform", "translate(" + (margin + labelWidth) + ","+ (height - axisMargin - margin)+")")
+            .call(xAxis);
+
+
+            svg.selectAll('rect').attr("fill", mapColor)
+
+
+
+});
+
+
 });
 
 
@@ -1490,7 +1824,7 @@ freqMap.bubbles(frequencyData, {
 <script>
   function legendDemo() {
 
-  sampleNumerical = [100,400,800,1400];
+  sampleNumerical = [minLegend + portion ,minLegend + (2*portion) , minLegend + (3*portion) ,maxLegend];
   sampleThreshold=d3.scale.threshold().domain(sampleNumerical).range(
       [firstColor,secondColor,thirdColor,lastColor]);
   horizontalLegend = d3.svg.legend().units("Freq").cellWidth(45).cellHeight(15).inputScale(sampleThreshold).cellStepping(100);
@@ -1501,8 +1835,7 @@ freqMap.bubbles(frequencyData, {
 
   d3.select("#footer4").append("svg:svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(horizontalLegend);
 
-  sampleCategoricalData = ["Something","Something Else", "Another", "This", "That", "Etc"]
-  sampleOrdinal = d3.scale.category20().domain(sampleCategoricalData);
+  
 
 
   }

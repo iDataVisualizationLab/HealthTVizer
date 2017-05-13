@@ -89,8 +89,8 @@ function preProcessData() {
       });
 
       callback(allTerms);
-      console.log(lines);
-      console.log(allTerms);
+      // console.log(lines);
+      // console.log(allTerms);
       
     });
   }
@@ -220,8 +220,8 @@ function preProcessData2() {
       });
 
       callback(allTerms);
-      console.log(lines);
-      console.log(allTerms);
+      // console.log(lines);
+      // console.log(allTerms);
       
     });
   }
@@ -402,8 +402,8 @@ function preProcessData3(dName) {
       
 
       callback(allTerms);
-      console.log(lines);
-      console.log(allTerms);
+      // console.log(lines);
+      // console.log(allTerms);
       
     });
   }

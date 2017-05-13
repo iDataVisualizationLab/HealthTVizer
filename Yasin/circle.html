@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>d3 circle legend</title>
+  <style type="text/css">
+
+  body {
+    font: 10px sans-serif;
+  }
+
+  .legend {
+    font-size: 12px;
+    font-family: sans-serif;
+  }
+
+  .legend path,
+  .legend line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    opacity: 1;
+  }
+
+  .circle-legend line {
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .circle-legend circle {
+    stroke: #ccc;
+    stroke-dasharray: 4, 2;
+    fill: none;
+  }
+
+  </style>
+</head>
+<body>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="circle-legend.js"></script>
+  <script type="text/javascript">
+
+    var margin = {top: 20, right: 100, bottom: 20, left: 100};
+
+    var width = 940 - margin.left - margin.right,
+      height = 600 - margin.top - margin.bottom;
+
+    var svg = d3.select('body').append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+
+    svg = svg.append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    var scale = d3.scale.sqrt()
+            .domain([0, 1000000])
+            .range([0, 100])
+
+  
+
+    // 2
+    scale.domain([0,1000000])
+
+    var formatSI = d3.format('s')
+    var formatCurrencySI = function(d) { return '$' + formatSI(d) }
+
+    var circleKey = circleLegend()
+        .scale(scale)
+        .tickValues([10000, 100000, 500000, 1000000])
+        .tickFormat(formatCurrencySI)
+        .tickPadding(10)
+        .orient("left") //default
+
+    svg.append('g')
+      .attr('transform', 'translate(400, 200)')
+      .call(circleKey)
+
+   
+
+    function sigFigs(n, sig) {
+      var mult = Math.pow(10,
+        sig - Math.floor(Math.log(n) / Math.LN10) - 1);
+      return Math.round(n * mult) / mult;
+    }
+
+  </script>
+</body>
+</html>
