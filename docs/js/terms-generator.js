@@ -294,7 +294,6 @@ function preProcessData3(dName) {
         var time = formatDate(timeNow);
         var month = parse2(timeNow);
         ++lines;
-        console.log(timeStamp)
         var contentArray = d.content;
         contentArray.forEach(function (d) {
         if(alphanumeric(d)){
