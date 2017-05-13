@@ -51,10 +51,11 @@
 
 
 <script>
+var globalData = [];
+var myData = [];
   var source = "wn";
   var topTermsCount = 50;
   var topTerms2;
-
   // stream graph variables declared globally to keep the scope for update
   var stack;
   var startDate;
@@ -140,11 +141,9 @@
     //Create a new instance of the word cloud visualisation.
     myWordCloud = wordCloud('#tagCloud');
     myWordCloud2 = wordCloud2('#tagCloud2');
-//    loadData("data/wikinews.tsv", "wn")
-      loadData("data/diseaseData.csv", "wn")
-      // loadDataUpdate("data/diseaseData.csv", "wn", "cancer");
-//      loadData("data/huffington.tsv", "wn")
-//      loadData("data/americablog.tsv", "wn")
+
+    loadData("data/diseaseData.csv", "wn")
+
   });
 
 
@@ -249,8 +248,21 @@
        cloudmessages.attr("opacity", 0);
 
     });
-  
+
   }
+
+ 
+
+  function myLocalData(diseaseName){
+        globalData.forEach(function (d) {
+        if(d.diseaseName == "cancer"){
+            myData.push(d);
+      }
+    });
+  }
+   console.log(globalData);
+   myLocalData("cancer");
+   console.log(myData)
 
     function loadDataUpdate(filename, source, dName) {
      var data3 = preProcessData3(dName);
@@ -1035,7 +1047,7 @@ function showNewWords2(vis, words) {
       }
       catch (exc) {
         // console.log(iterator);
-        debugger;
+        // debugger;
       }
       d.push({"month": new Date(now), "freq": y});
        now["setHours"](now.getHours() + 1);
@@ -1371,7 +1383,7 @@ thirdColor = color(-0.25)
  legendDemo();
 d3.json("LocationDiseaseFreq.json", function(error, dict) {
 
-debugger;
+// debugger;
 var freData = {cnt:[]};    
 
 //by changing the j you are changing the disease name
@@ -1429,7 +1441,7 @@ for(i = 0 ; i < dict[diseaseIndex]['value'].length; i++){
               })
      }
   }
-debugger;
+// debugger;
 a = d3.selectAll('.datamaps-hoverover')
 if(a[0].length > 0)
   a = d3.selectAll('.datamaps-hoverover').remove()
@@ -1437,7 +1449,7 @@ if(a[0].length > 0)
 if(document.getElementById('mapSvg') != null)
   document.getElementById('mapSvg').remove()
 
-debugger;
+// debugger;
   var freqMap = new Datamap({
     element: document.getElementById('container'),
     scope: 'usa',
