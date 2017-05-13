@@ -26,10 +26,11 @@
 
 <body>
 
-  
-<div id="footer3">
   <div id="footer4"> </div>
+<div id="footer3">
+  <!-- <div id="footer4"> </div> -->
   <div id="container" ></div>
+  
 </div>
     
 <div id="footer">
@@ -43,9 +44,9 @@
     <div id="timeline2" runat="server"></div>
        
 </div>
+<div class="chart" id="userFreq"></div>
 
 
-<div class="chart" id="userFreq">
 
 </div>
 
@@ -1529,7 +1530,6 @@ d3.json("userData.json", function(error, userData){
 cancerUserList = [];
 bloodUserList = [];
 psychUserList = [];
-
 rareDiseaseList = [];
 excretoryList = [];
 injuryList = [];
@@ -1548,57 +1548,73 @@ respiratoryList = [];
 skinList = [];
 cardiovascularList = [];
 
-for(j = 0 ; j < userData.length; j++){
-  for(i = 0 ; i < userData[j].value.length; i++){
-    if(userData[j].value[i].diseaseName == "cancer")
-      cancerUserList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "blood")
-      bloodUserList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "Psych")
-      psychUserList.push(userData[i].userId);
 
-    if(userData[j].value[i].diseaseName == "RareDiseases")
-      rareDiseaseList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "Excretory")
-      excretoryList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "Injury")
-      injuryList.push(userData[i].userId);
-
-    if(userData[j].value[i].diseaseName == "Musculoskeletal")
-      musculoskeletalList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "Multiple")
-      multipleList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "Neurological")
-      neurologicalList.push(userData[i].userId);
-
-    if(userData[j].value[i].diseaseName == "Immune")
-      immuneList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "CongenitalAnomolies")
-      congenitalList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "InfectiousParasitic")
-      infectiousList.push(userData[i].userId);
-
-    if(userData[j].value[i].diseaseName == "Reproductive")
-      reprodcutiveList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "SenseOrgansSkin")
-      senseOrgansList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "Lymphatic")
-      lymphaticList.push(userData[i].userId);
-
-    if(userData[j].value[i].diseaseName == "Digestive")
-      digestiveList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "Metabolic")
-      metabolicList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "Respiratory")
-      respiratoryList.push(userData[i].userId);
-
-    if(userData[j].value[i].diseaseName == "Skin")
-      skinList.push(userData[i].userId);
-    if(userData[j].value[i].diseaseName == "cardiovascular")
-      cardiovascularList.push(userData[i].userId);
-
-  }
+for(i = 0 ; i < userData.length ; i++){
+  for(j = 0 ; j < userData[i].value.length; j++){
+    if(userData[i].value[j].diseaseName == "Psych"){
+      psychUserList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "cancer"){
+      cancerUserList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "blood"){
+      bloodUserList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "RareDiseases"){
+      rareDiseaseList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Excretory"){
+      excretoryList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Injury"){
+      injuryList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Musculoskeletal"){
+      musculoskeletalList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Multiple"){
+      multipleList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Neurological"){
+      neurologicalList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Immune"){
+      immuneList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "CongenitalAnomolies"){
+      congenitalList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "InfectiousParasitic"){
+      infectiousList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Reproductive"){
+      reprodcutiveList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "SenseOrgansSkin"){
+      senseOrgansList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Lymphatic"){
+      lymphaticList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Digestive"){
+      digestiveList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Metabolic"){
+      metabolicList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Respiratory"){
+      respiratoryList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "Skin"){
+      skinList.push(userData[i].userId)
+    }
+    else if(userData[i].value[j].diseaseName == "cardiovascular"){
+      cardiovascularList.push(userData[i].userId)
+    }
 }
+
+}
+
 
 neurologicalUser = {diseaseName:'', value:[]}
 neurologicalUser.diseaseName = "Neurological";
@@ -1720,7 +1736,7 @@ for(i = 0 ; i < diseaseUser.length; i++){
 
 d3.selectAll('#userFreq svg').remove()
 
-var div = d3.select(".chart").append("div").attr("class", "toolTip");
+// var div = d3.select(".chart").append("div").attr("class", "toolTip");
 
     var axisMargin = 20,
             margin = 40,
@@ -1735,7 +1751,7 @@ var div = d3.select(".chart").append("div").attr("class", "toolTip");
 
     svg = d3.select('.chart')
             .append("svg")
-            .attr("width", width)
+            .attr("width", width/2.5)
             .attr("height", height);
 
 
@@ -1763,7 +1779,7 @@ var div = d3.select(".chart").append("div").attr("class", "toolTip");
 
     scale = d3.scale.linear()
             .domain([0, max])
-            .range([0, width - margin*2 - labelWidth]);
+            .range([0, width/2.5 - margin*2 - labelWidth]);
 
     xAxis = d3.svg.axis()
             .scale(scale)
@@ -1792,17 +1808,17 @@ var div = d3.select(".chart").append("div").attr("class", "toolTip");
                 return Math.max(width + valueMargin, scale(d[1]));
             });
 
-    bar
-            .on("mousemove", function(d){
-                div.style("left", d3.event.pageX+10+"px");
-                div.style("top", d3.event.pageY-25+"px");
-                div.style("display", "inline-block");
-                div.html((d[0])+"<br>"+(d[1]));
-            });
-    bar
-            .on("mouseout", function(d){
-                div.style("display", "none");
-            });
+    // bar
+    //         .on("mousemove", function(d){
+    //             div.style("left", d3.event.pageX+10+"px");
+    //             div.style("top", d3.event.pageY-25+"px");
+    //             div.style("display", "inline-block");
+    //             div.html((d[0])+"<br>"+(d[1]));
+    //         });
+    // bar
+    //         .on("mouseout", function(d){
+    //             div.style("display", "none");
+    //         });
 
     svg.insert("g",":first-child")
             .attr("class", "axisHorizontal")
@@ -1837,7 +1853,7 @@ var div = d3.select(".chart").append("div").attr("class", "toolTip");
   if (arr[0].length > 0)
     d3.selectAll('#footer4 svg').remove()
 
-  d3.select("#footer4").append("svg:svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(horizontalLegend);
+  d3.select("#footer4").append("svg:svg").attr("width",300).attr("height",100).append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(horizontalLegend);
 
   
 
