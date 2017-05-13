@@ -28,7 +28,7 @@ function preProcessData() {
   this.startProcess = function (filename, callback) {
     d3.csv(filename, function (data) {
       // console.log(data);
-      console.log(globalData)
+      // console.log(globalData)
       data.forEach(function (d) {
         // globalData.push(d);
         if(d.diseaseName.length>0){
@@ -149,7 +149,7 @@ function preProcessData2() {
   var parse2 = d3.time.format("%Y %m %d %H");
   this.startProcess2 = function (filename, callback) {
     d3.csv(filename, function (data) {
-      // console.log(data);
+      console.log(data);
       data.forEach(function (d) {
         if(d.diseaseName.length>0){
         var timeStamp = d.timestamp;
@@ -165,8 +165,8 @@ function preProcessData2() {
         globalObj.diseaseName = d.diseaseName;
         globalObj.keyword = d.keyword;
         globalObj.location = d.location;
-        globalObj.time = d.time;
-        globalObj.timeStamp = d.timeStamp;
+        globalObj.timestamp = d.timestamp;
+        globalObj.time = time;
         var globalContent = [];
 
         contentArray.forEach(function (d) {
@@ -221,7 +221,7 @@ function preProcessData2() {
 
       callback(allTerms);
       // console.log(lines);
-      // console.log(allTerms);
+      console.log(allTerms);
       
     });
   }
@@ -264,6 +264,7 @@ function preProcessData3(dName) {
         stopObj[stopWordList[i]] = 1;
 
 
+
   var topTerms = new Hashtable();
   //var allTerms = new Hashtable();
   var orgTerms = new Hashtable();
@@ -278,24 +279,24 @@ function preProcessData3(dName) {
   var lines = 0;
   var formatDate = d3.time.format("%Y-%m-%d %H:%M:%S");
   var parse2 = d3.time.format("%Y %m %d %H");
-  this.startProcess3 = function (filename, callback) {
-    var count = 0;
-    d3.csv(filename, function (data) {
-      // console.log(data);
-      data.forEach(function (d) {
+  this.startProcess3 = function (dName, callback) {
+    
+     var myData = myLocalData(dName);
+      var count = 0;
+    // d3.csv(filename, function (data) {
+      console.log(globalData);
+      console.log(myData);
+      myData.forEach(function (d) {
         if(d.diseaseName == dName){
           count = 100;
-        d.person = d.content;
-         var persons = d.person;
-        var timeStamp = d.timestamp;
+          var timeStamp = d.timestamp;
         var timeNow = new Date(Date.parse(timeStamp));
         var time = formatDate(timeNow);
-        d.time = time;
         var month = parse2(timeNow);
         ++lines;
-
-        var personsArray = persons.split(",");
-        personsArray.forEach(function (d) {
+        console.log(timeStamp)
+        var contentArray = d.content;
+        contentArray.forEach(function (d) {
         if(alphanumeric(d)){
           if(stopObj[d]!=1){
           if (d.length >0) {
@@ -341,20 +342,19 @@ function preProcessData3(dName) {
       }
       });
       if(count==0){
-       data.forEach(function (d) {
+       myData.forEach(function (d) {
         if(d.diseaseName.length>0){
         // console.log("working elseif");
-        d.person = d.content;
-         var persons = d.person;
         var timeStamp = d.timestamp;
         var timeNow = new Date(Date.parse(timeStamp));
         var time = formatDate(timeNow);
         d.time = time;
+        console.log(timeNow)
         var month = parse2(timeNow);
         ++lines;
 
-        var personsArray = persons.split(",");
-        personsArray.forEach(function (d) {
+        var contentArray = d.content;
+        contentArray.forEach(function (d) {
           if(stopObj[d]!=1){
           if (d.length >0) {
             //allTerms consideration.
@@ -402,10 +402,7 @@ function preProcessData3(dName) {
       
 
       callback(allTerms);
-      // console.log(lines);
-      // console.log(allTerms);
-      
-    });
+      console.log(allTerms)
   }
 
   this.getRelated = function (term) {

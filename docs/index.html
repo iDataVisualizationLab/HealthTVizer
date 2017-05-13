@@ -257,18 +257,16 @@ var myData = [];
  
 
   function myLocalData(diseaseName){
-        globalData.filter(function (d) {
+      return  globalData.filter(function (d) {
         return (d.diseaseName == diseaseName);
       });
     }
 
-   console.log(globalData);
-   console.log(myLocalData("cancer"));
 
-    function loadDataUpdate(filename, source, dName) {
+    function loadDataUpdate(dName) {
      var data3 = preProcessData3(dName);
     // console.log(data3);
-  data3.startProcess3(filename, function (data) {
+  data3.startProcess3(dName, function (data) {
            var localallTermsArray = [];
     var localallTermsMap;
       // console.log(data)
@@ -517,7 +515,7 @@ function showNewWords2(vis, words) {
                   if(clickNo==0){
                    highlightLayer({term: d.text});
                    highlightWord3(d);
-                   loadDataUpdate("data/diseaseData.csv", "wn", d.text);
+                   loadDataUpdate(d.text);
                    clickNo = 1;
                    console.log("click if")
                  }
