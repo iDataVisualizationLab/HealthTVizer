@@ -1811,12 +1811,21 @@ d3.selectAll('#userFreq svg').remove()
 console.log(height);
     max = d3.max(data[0].value, function(d) { return d[1]; });
 
+     var tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .direction('n')
+      .offset([0, 20])
+      .html(function(d) {
+       // console.log(d.meta);
+        return '<table id="tiptable">' + d + "</table>";
+    });
+
     svg = d3.select('.chart')
             .append("svg")
             .attr("width", width/2)
             .attr("height", height);
 
-
+    svg.call(tip);
     bar = svg.selectAll("g")
             .data(data[0].value)
             .enter()
@@ -1837,7 +1846,29 @@ console.log(height);
                 return d[0];
             }).each(function() {
         labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
-    });
+    })
+            .on('click', function(d){
+
+              d3.csv("diseaseData.csv", function(error, contentData){
+                    var count = 0;
+                    var tweetContent = "";
+                    for(i=0;i<contentData.length;i++){
+                      if(contentData[i].userId == d[0]){
+                        // console.log(contentData.userId)
+                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
+                        count++;
+                      }
+
+
+                      if(count>20)
+                        break;
+                    }
+                    console.log(tweetContent);
+                    tip.show(tweetContent, this);
+              })
+              
+            })
+            .on('mouseout', tip.hide)
 
     scale = d3.scale.linear()
             .domain([0, max])
