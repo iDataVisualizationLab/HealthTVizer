@@ -17,6 +17,7 @@
   <script src="js/terms-generator.js"></script>
   <script src="js/cmatrix.js"></script>
   <script src="legend.js"></script>
+  <script type="http://spin.js.org/spin.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/app.css">
   
@@ -33,7 +34,7 @@
 </head>
 
 <body>
-
+<div id="spin">
 <div class="row">
   <div class="col-md-5" style="padding-top: 100px; padding-left: 30px; height: 400px;">
     <div class="chart" id="userFreq"></div>
@@ -60,7 +61,7 @@
        
 </div>
 
-
+</div>
 
 
 
@@ -91,6 +92,35 @@ var myDiseaseName = "all";
   var catcolors = [];
   var streamColor = d3.scale.category20();
   // Method for creating stack layout.
+
+
+//   // Spinner
+//   var opts = {
+//   lines: 13 // The number of lines to draw
+// , length: 28 // The length of each line
+// , width: 14 // The line thickness
+// , radius: 42 // The radius of the inner circle
+// , scale: 1 // Scales overall size of the spinner
+// , corners: 1 // Corner roundness (0..1)
+// , color: '#000' // #rgb or #rrggbb or array of colors
+// , opacity: 0.25 // Opacity of the lines
+// , rotate: 0 // The rotation offset
+// , direction: 1 // 1: clockwise, -1: counterclockwise
+// , speed: 1 // Rounds per second
+// , trail: 60 // Afterglow percentage
+// , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+// , zIndex: 2e9 // The z-index (defaults to 2000000000)
+// , className: 'spinner' // The CSS class to assign to the spinner
+// , top: '50%' // Top position relative to parent
+// , left: '50%' // Left position relative to parent
+// , shadow: false // Whether to render a shadow
+// , hwaccel: false // Whether to use hardware acceleration
+// , position: 'absolute' // Element positioning
+// }
+// var target = document.getElementById('spin')
+// var spinner = new Spinner(opts).spin(target);
+
+
   stack = d3.layout.stack().offset("silhouette")
           .values(function (d) {
             return d.monthfreq;
@@ -1851,7 +1881,7 @@ console.log(height);
     })
             .on('click', function(d){
 
-              d3.csv("diseaseData.csv", function(error, contentData){
+              d3.csv("diseaseUserData.csv", function(error, contentData){
                     var count = 0;
                     var tweetContent = "";
                     for(i=0;i<contentData.length;i++){
@@ -1894,7 +1924,8 @@ console.log(height);
             })
             .on('click', function(d){
 
-              d3.csv("diseaseData.csv", function(error, contentData){
+
+              d3.csv("diseaseUserData.csv", function(error, contentData){
                     var count = 0;
                     var tweetContent = "";
                     for(i=0;i<contentData.length;i++){
