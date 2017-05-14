@@ -71,6 +71,7 @@
 <script>
 var globalData = [];
 var myData = [];
+var myDiseaseName = "Metabolic";
   var source = "wn";
   var topTermsCount = 50;
   var topTerms2;
@@ -521,6 +522,7 @@ function showNewWords2(vis, words) {
               .on("click", function (d) {
                   // console.log(d);
                   diseaseNameMap = d.text;
+                  myDiseaseName = d.text;
                   for(i = 0 ; i < mapList.length; i++){
                     if(mapList[i].diseaseName == diseaseNameMap)
                       mapColor = mapList[i].color;
@@ -1812,8 +1814,7 @@ console.log(height);
     max = d3.max(data[0].value, function(d) { return d[1]; });
 
      var tip = d3.tip()
-      .attr('class', 'd3-tooltip')
-      .direction('n')
+      .attr('class', 'd3-tip d3-tooltip')
       .offset([0, 20])
       .html(function(d) {
        // console.log(d.meta);
@@ -1853,7 +1854,7 @@ console.log(height);
                     var count = 0;
                     var tweetContent = "";
                     for(i=0;i<contentData.length;i++){
-                      if(contentData[i].userId == d[0]){
+                      if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
                         // console.log(contentData.userId)
                         tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
                         count++;
@@ -1891,7 +1892,7 @@ console.log(height);
                     var count = 0;
                     var tweetContent = "";
                     for(i=0;i<contentData.length;i++){
-                      if(contentData[i].userId == d[0]){
+                      if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
                         // console.log(contentData.userId)
                         tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
                         count++;
@@ -1906,7 +1907,7 @@ console.log(height);
               })
               
             })
-            .on('mouseout', tip.hide);
+            .on('mouseout', tip.hide)
 
 
     bar.append("text")
