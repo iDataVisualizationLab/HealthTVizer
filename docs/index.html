@@ -1812,7 +1812,7 @@ console.log(height);
     max = d3.max(data[0].value, function(d) { return d[1]; });
 
      var tip = d3.tip()
-      .attr('class', 'd3-tip')
+      .attr('class', 'd3-tooltip')
       .direction('n')
       .offset([0, 20])
       .html(function(d) {
@@ -1884,7 +1884,30 @@ console.log(height);
             .attr("height", barHeight)
             .attr("width", function(d){
                 return scale(d[1]);
-            });
+            })
+            .on('click', function(d){
+
+              d3.csv("diseaseData.csv", function(error, contentData){
+                    var count = 0;
+                    var tweetContent = "";
+                    for(i=0;i<contentData.length;i++){
+                      if(contentData[i].userId == d[0]){
+                        // console.log(contentData.userId)
+                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
+                        count++;
+                      }
+
+
+                      if(count>20)
+                        break;
+                    }
+                    console.log(tweetContent);
+                    tip.show(tweetContent, this);
+              })
+              
+            })
+            .on('mouseout', tip.hide);
+
 
     bar.append("text")
             .attr("class", "value")

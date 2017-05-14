@@ -233,10 +233,19 @@ h5 {
     stroke-width: 0.02;
     fill: none;
   }
+  .d3-tooltip{
+    background: #ccc;
+    border-radius: 10px;
+    padding: 8px;
+    margin-left: 150px;
+  }
   .singletwitt{
-    font-size: 12px;
+    font-size: 13px;
     font-weight: normal;
-    margin-bottom: 5px;
-    background: #777;
+    margin-bottom: 2px;
+    background: #fff;
     padding: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #000;
   }
