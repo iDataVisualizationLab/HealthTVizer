@@ -1879,7 +1879,7 @@ console.log(height);
             }).each(function() {
         labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
     })
-            .on('mousemove', function(d){
+            .on('click', function(d){
 
               d3.csv("diseaseUserData.csv", function(error, contentData){
                     var count = 0;
@@ -1922,7 +1922,7 @@ console.log(height);
             .attr("width", function(d){
                 return scale(d[1]);
             })
-            .on('mousemove', function(d){
+            .on('click', function(d){
 
 
               d3.csv("diseaseUserData.csv", function(error, contentData){
