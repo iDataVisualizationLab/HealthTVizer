@@ -35,7 +35,7 @@
 <body>
 
 <div class="row">
-  <div class="col-md-5" style="padding-top: 100px; padding-left: 30px;">
+  <div class="col-md-5" style="padding-top: 100px; padding-left: 30px; height: 400px;">
     <div class="chart" id="userFreq"></div>
   </div>
   <div class="col-md-7">
@@ -1756,11 +1756,12 @@ d3.selectAll('#userFreq svg').remove()
             margin = 40,
             valueMargin = 4,
             width = parseInt(d3.select('body').style('width'), 10),
-            height = parseInt(d3.select('body').style('height'), 10),
+            height = 400,
             barHeight = (height-axisMargin-margin*2)* 0.4/data.length,
             barPadding = (height-axisMargin-margin*2)*0.6/data.length,
             data, bar, svg, scale, xAxis, labelWidth = 0;
 
+console.log(height);
     max = d3.max(data[0].value, function(d) { return d[1]; });
 
     svg = d3.select('.chart')
