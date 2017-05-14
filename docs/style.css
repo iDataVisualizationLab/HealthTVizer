@@ -233,3 +233,10 @@ h5 {
     stroke-width: 0.02;
     fill: none;
   }
+  .singletwitt{
+    font-size: 12px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    background: #777;
+    padding: 5px;
+  }
