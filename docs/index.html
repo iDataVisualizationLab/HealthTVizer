@@ -91,6 +91,10 @@ var myDiseaseName = "all";
   var xAxis, yAxis;
   var catcolors = [];
   var streamColor = d3.scale.category20();
+
+        var lineColor = d3.scale.linear()
+                      .domain([0,120])
+                      .range(['#558', '#000'])
   // Method for creating stack layout.
 
 
@@ -639,12 +643,16 @@ function showNewWords2(vis, words) {
   }
     function wordCloud2(selector) {
 
+
+
     //Draw the word cloud
     function draw(words) {
       // console.log(words);
        words.sort(function(a, b) {
       return a.frequency -b.frequency;
     });
+       console.log(words)
+       lineColor.domain([words[0].frequency, words[49].frequency]);
       var cloud = svg2.selectAll("g text")
               .data(words, function (d) {
                 return d.text;
@@ -657,7 +665,8 @@ function showNewWords2(vis, words) {
               })
               .style("font-family", "Impact")
               .style("fill", function (d, i) {
-                 return streamColor(i);
+                console.log(d);
+                 return lineColor(d.frequency);
               })
               .style("cursor", "pointer")
               .style("pointer-events", "all")
@@ -985,7 +994,8 @@ function showNewWords2(vis, words) {
     topTerms.sort(function(a, b) {
       return a.freq - b.freq;
     });
-// console.log(topTerms);
+console.log(topTerms);
+lineColor.domain([topTerms[0].freq, topTerms[49].freq]);
     layers = stack(topTerms);
 
     timelineX.domain([endDate, startDate]);
@@ -1017,7 +1027,7 @@ function showNewWords2(vis, words) {
             .enter().append("path")
             .attr("clip-path", "url(#sideClip)")
             .attr("class", "layer")
-            .call(updateLayer)
+            .call(updateLayer2)
             .on("mouseover", function (d) {
               highlightLayer2(d);
               highlightWord2(d);
@@ -1128,13 +1138,14 @@ function showNewWords2(vis, words) {
     topTerms.sort(function(a, b) {
       return a.freq - b.freq;
     });
+    lineColor.domain([topTerms[0].freq, topTerms[49].freq]);
     // Stacked layers.
     var stackLayers = timeline2.selectAll(".layer")
             .data(layers);
     stackLayers.enter().append("path")
             .attr("clip-path", "url(#sideClip)")
             .attr("class", "layer")
-            .call(updateLayer)
+            .call(updateLayer2)
             .on("mouseover", function (d) {
               highlightLayer(d);
               highlightWord(d);
@@ -1155,14 +1166,14 @@ function showNewWords2(vis, words) {
     if (hasTransition) {
       timeline2.selectAll(".layer")
               .transition()
-              .call(updateLayer);
+              .call(updateLayer2);
 
       timeline2.selectAll(".layerLine")
               .transition()
               .call(updateLayerLine);
     } else {
       timeline2.selectAll(".layer")
-              .call(updateLayer);
+              .call(updateLayer2);
 
       timeline2.selectAll(".layerLine")
               .call(updateLayerLine);
@@ -1188,7 +1199,18 @@ function showNewWords2(vis, words) {
       return area(d.monthfreq);
     })
             .style("fill", function (d, i) {
+              console.log(d);
               return streamColor(i);
+            });
+  }
+
+    function updateLayer2() {
+    this.attr("d", function (d) {
+      return area(d.monthfreq);
+    })
+            .style("fill", function (d, i) {
+              // console.log(d);
+              return lineColor(d.freq);
             });
   }
 
