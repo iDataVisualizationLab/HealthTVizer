@@ -22,16 +22,31 @@
   
   <link rel="stylesheet" type="text/css" href="style.css">
   
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-  <div id="footer4"> </div>
-<div id="footer3">
-  <!-- <div id="footer4"> </div> -->
-  <div id="container" ></div>
-  
+<div class="row">
+  <div class="col-md-5" style="padding-top: 100px; padding-left: 30px;">
+    <div class="chart" id="userFreq"></div>
+  </div>
+  <div class="col-md-7">
+    <div id="footer4" style="position: relative; left: 170px;"> </div>
+    <div id="container" style="height: 500px; width: 650px;" ></div>
+  </div>
 </div>
+
+
+  
+ 
     
 <div id="footer">
     <div id="tagCloud" runat="server"></div>
@@ -44,11 +59,10 @@
     <div id="timeline2" runat="server"></div>
        
 </div>
-<div class="chart" id="userFreq"></div>
 
 
 
-</div>
+
 
 
 
@@ -1751,7 +1765,7 @@ d3.selectAll('#userFreq svg').remove()
 
     svg = d3.select('.chart')
             .append("svg")
-            .attr("width", width/2.5)
+            .attr("width", width/2)
             .attr("height", height);
 
 
@@ -1795,7 +1809,7 @@ d3.selectAll('#userFreq svg').remove()
 
     bar.append("text")
             .attr("class", "value")
-            .attr("y", barHeight / 2)
+            .attr("y", barHeight / 2.5)
             .attr("dx", -valueMargin + labelWidth) //margin right
             .attr("dy", ".35em") //vertical align middle
             .attr("text-anchor", "end")

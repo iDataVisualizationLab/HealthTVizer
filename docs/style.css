@@ -165,9 +165,8 @@ h5 {
 #container{
     float: : left;
     width: 50%; 
-    height: 500px;
-   /* height: 500px; 
-    margin: 0 auto*/
+    height: 500px; 
+    margin: 0 auto
     
 }
 
@@ -179,23 +178,21 @@ h5 {
 }
 #userFreq{
     float: : right;
-    /*width: 30%; */
+    width: 20%; 
     /*height: 500px; 
     margin: 0 auto*/
 
 }
 
 .chart div {
-  width: 30%;
+  width: 20%;
   float: left;
   font: 5px sans-serif;
   background-color: steelblue;
-  width: 30%;
   text-align: right;
   padding: 3px;
   margin: 1px;
   color: white;
-  height: 300px;
 }
 
 #intervalSlider {
