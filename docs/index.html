@@ -71,7 +71,7 @@
 <script>
 var globalData = [];
 var myData = [];
-var myDiseaseName = "Metabolic";
+var myDiseaseName = "all";
   var source = "wn";
   var topTermsCount = 50;
   var topTerms2;
@@ -1854,7 +1854,12 @@ console.log(height);
                     var count = 0;
                     var tweetContent = "";
                     for(i=0;i<contentData.length;i++){
-                      if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
+                      if(myDiseaseName == "all" && contentData[i].userId == d[0]){
+                        // console.log(contentData.userId)
+                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
+                        count++;
+                      }
+                      else if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
                         // console.log(contentData.userId)
                         tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
                         count++;
