@@ -1816,10 +1816,11 @@ console.log(height);
      var tip = d3.tip()
       .attr('class', 'd3-tip d3-tooltip')
       .offset([0, 20])
+      .direction('e')
       .html(function(d) {
        // console.log(d.meta);
         return '<table id="tiptable">' + d + "</table>";
-    });
+    })
 
     svg = d3.select('.chart')
             .append("svg")
