@@ -161,6 +161,7 @@ var myData = [];
     myWordCloud2 = wordCloud2('#tagCloud2');
 
     loadData("data/diseaseData.csv", "wn")
+    showUser("all", "#FFDAB9")
 
   });
 
@@ -1537,7 +1538,17 @@ freqMap.bubbles(frequencyData, {
     }
 });
 
-d3.json("userData.json", function(error, userData){
+showUser(diseaseName, mapColor)
+
+});
+
+
+
+
+}
+
+function showUser(diseaseName, mapColor){
+  d3.json("userData.json", function(error, userData){
 
   debugger;
 
@@ -1716,6 +1727,8 @@ cardiovascularUser.diseaseName = "cardiovascular"
 cardiovascularUser.value = frequencyUser(cardiovascularList);
 
 
+
+
 diseaseUser = [];
 diseaseUser.push(neurologicalUser)
 diseaseUser.push(cardiovascularUser);
@@ -1740,13 +1753,47 @@ diseaseUser.push(bloodUser);
 diseaseUser.push(cancerUser);
 debugger;
 
-for(i = 0 ; i < diseaseUser.length; i++){
-  if(diseaseUser[i].diseaseName == diseaseNameMap){
-    data = [];
-    for(p = 0 ; p < diseaseUser[i].value.length; p++)
-        data.push(diseaseUser[i])
+data = [];
+if(diseaseName != "all"){
+  for(i = 0 ; i < diseaseUser.length; i++){
+    if(diseaseUser[i].diseaseName == diseaseNameMap){
+      diseaseData = [];
+      for(p = 0 ; p < diseaseUser[i].value.length; p++)
+          diseaseData.push(diseaseUser[i])
+    }
   }
+  data = diseaseData;
+}else{
+    allTopUser = [];
+    allTopUser.push(cardiovascularUser.value[0])
+    allTopUser.push(skinUser.value[0])
+    allTopUser.push(respiratoryUser.value[0])
+    allTopUser.push(metabolicUser.value[0])
+    allTopUser.push(digestiveUser.value[0])
+    allTopUser.push(lymphaticUser.value[0])
+    allTopUser.push(senseOrgansUser.value[0])
+    allTopUser.push(reprodcutiveUser.value[0])
+    allTopUser.push(infectiousUser.value[0])
+    allTopUser.push(congenitalUser.value[0])
+    allTopUser.push(immuneUser.value[1])
+    allTopUser.push(multipleUser.value[0])
+    allTopUser.push(musculoskeletaUser.value[0])
+    allTopUser.push(injuryUser.value[0])
+    allTopUser.push(excretoryUser.value[0])
+    allTopUser.push(rareDiseaseUser.value[0])
+    allTopUser.push(psychUser.value[0])
+    allTopUser.push(cancerUser.value[1])
+    allTopUser.push(bloodUser.value[0])
+    allTopUser.push(neurologicalUser.value[0])
+    allTopUser.sort(function(a, b) {
+      return b[1] - a[1];
+    });
+    temp = {diseaseName: "all", value:[]}
+    temp.value = allTopUser;
+    data.push(temp);
 }
+
+
 
 d3.selectAll('#userFreq svg').remove()
 
@@ -1757,8 +1804,8 @@ d3.selectAll('#userFreq svg').remove()
             valueMargin = 4,
             width = parseInt(d3.select('body').style('width'), 10),
             height = 400,
-            barHeight = (height-axisMargin-margin*2)* 0.4/data.length,
-            barPadding = (height-axisMargin-margin*2)*0.6/data.length,
+            barHeight = 6,//(height-axisMargin-margin*2)* 0.4/data.length,
+            barPadding = 9,//(height-axisMargin-margin*2)*0.6/data.length,
             data, bar, svg, scale, xAxis, labelWidth = 0;
 
 console.log(height);
@@ -1846,14 +1893,7 @@ console.log(height);
 
 
 });
-
-
-});
-
-
 }
-
-
 </script>
 
 <script>
