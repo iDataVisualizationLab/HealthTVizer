@@ -197,6 +197,7 @@ var myDiseaseName = "all";
 
     loadData("data/diseaseData.csv", "wn")
     showUser("all", "#FFDAB9")
+    
 
   });
 
@@ -1601,6 +1602,8 @@ showUser(diseaseName, mapColor)
 
 }
 
+
+
 function showUser(diseaseName, mapColor){
   d3.json("userData.json", function(error, userData){
 
@@ -1894,7 +1897,7 @@ console.log(height);
     bar.append("text")
             .attr("class", "label")
             .attr("y", barHeight / 2)
-            .attr("fill", mapColor)
+            .attr("fill", "#000000")
             .attr("dy", ".35em") //vertical align middle
             .text(function(d){
                 return d[0];
@@ -2007,7 +2010,12 @@ console.log(height);
 
 
 });
+
+
+
 }
+
+
 </script>
 
 <script>
