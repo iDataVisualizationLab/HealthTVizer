@@ -638,7 +638,7 @@ function showNewWords2(vis, words) {
               })
               .style("font-family", "Impact")
               .style("fill", function (d, i) {
-                console.log(d);
+                
                  return lineColor(d.frequency);
               })
               .style("cursor", "pointer")
@@ -967,7 +967,7 @@ function showNewWords2(vis, words) {
     topTerms.sort(function(a, b) {
       return a.freq - b.freq;
     });
-console.log(topTerms);
+
 lineColor.domain([topTerms[0].freq, topTerms[49].freq]);
     layers = stack(topTerms);
 
@@ -1172,7 +1172,6 @@ lineColor.domain([topTerms[0].freq, topTerms[49].freq]);
       return area(d.monthfreq);
     })
             .style("fill", function (d, i) {
-              console.log(d);
               return streamColor(i);
             });
   }
@@ -1457,6 +1456,205 @@ secondColor = color(-0.5)
 thirdColor = color(-0.25)
 
 d3.csv("diseaseDatalonglan.csv", function(error, dict) {
+
+locationMissed = {}
+for(i = 0 ; i < dict.length; i++){
+  if(dict[i].long.length == 0 || dict[i].lan.length ==0)
+    locationMissed[dict[i].location] = locationMissed[dict[i].location] ? locationMissed[dict[i].location]+1 : 1
+}
+
+var sortable = [];
+    for (var user in locationMissed) {
+        sortable.push([user, locationMissed[user]]);
+    }
+
+ sortable.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+
+ test = sortable.slice(0,50)
+
+ for(i = 0 ; i < dict.length; i++){
+if(dict[i].location == "Texas, USA"){
+  dict[i].long = -99.9018
+  dict[i].lan = 31.9686
+}else if(dict[i].location == "Manhattan, NY"){
+  dict[i].long = -73.9712
+  dict[i].lan = 40.7831
+}else if(dict[i].location == "Florida, USA"){
+  dict[i].long = -81.5158
+  dict[i].lan = 27.6648
+}else if(dict[i].location == "Georgia, USA"){
+  dict[i].long = -82.9001
+  dict[i].lan = 32.1656
+}else if(dict[i].location == "Pennsylvania, USA"){
+  dict[i].long = -77.1945
+  dict[i].lan = 41.2033
+}else if(dict[i].location == "Ohio, USA"){
+  dict[i].long = -82.9071
+  dict[i].lan = 40.4173
+}else if(dict[i].location == "Virginia, USA"){
+  dict[i].long = -78.6569
+  dict[i].lan = 37.4316
+}else if(dict[i].location == "North Carolina, USA"){
+  dict[i].long = -79.0193
+  dict[i].lan = 35.7596
+}else if(dict[i].location == "New York, USA"){
+  dict[i].long = -74.0059
+  dict[i].lan = 40.7128
+}else if(dict[i].location == "California, USA"){
+  dict[i].long = -119.4179
+  dict[i].lan = 36.7783
+}else if(dict[i].location == "Queens, NY"){
+  dict[i].long = -73.7949
+  dict[i].lan = 40.7282
+}else if(dict[i].location == "South Carolina, USA"){
+  dict[i].long = -81.1637
+  dict[i].lan = 33.8361
+}else if(dict[i].location == "Kentucky, USA"){
+  dict[i].lan = 37.8393
+  dict[i].long = -84.2700
+}else if(dict[i].location == "Michigan, USA"){
+  dict[i].lan = 44.3148
+  dict[i].long = -85.6024
+}else if(dict[i].location == "Indiana, USA"){
+  dict[i].lan = 40.2672
+  dict[i].long = -86.1349
+}else if(dict[i].location == "Missouri, USA"){
+  dict[i].lan = 37.9643
+  dict[i].long = -91.8318
+}else if(dict[i].location == "Illinois, USA"){
+  dict[i].lan = 40.6331
+  dict[i].long = -89.3985
+}else if(dict[i].location == "Tennessee, USA"){
+  dict[i].lan = 35.5175
+  dict[i].long = -86.5804
+}else if(dict[i].location == "Wisconsin, USA"){
+  dict[i].lan = 43.7844
+  dict[i].long = -88.7879
+}else if(dict[i].location == "Maryland, USA"){
+  dict[i].lan = 39.0458
+  dict[i].long = -76.6413
+}else if(dict[i].location == "Vancouver, British Columbia"){
+  dict[i].lan = 49.2827
+  dict[i].long = -123.1207
+}else if(dict[i].location == "Alabama, USA"){
+  dict[i].lan = 32.3182
+  dict[i].long = -86.9023
+}else if(dict[i].location == "Colorado, USA"){
+  dict[i].lan = 39.5501
+  dict[i].long = -105.7821
+}else if(dict[i].location == "Halifax, Nova Scotia"){
+  dict[i].lan = 44.6488
+  dict[i].long = -63.5752
+}else if(dict[i].location == "Mississippi, USA"){
+  dict[i].lan = 32.3547
+  dict[i].long = -89.3985
+}else if(dict[i].location == "Edmonton, Alberta"){
+  dict[i].lan = 53.5444
+  dict[i].long = -113.4909
+}else if(dict[i].location == "C���cuta, Colombia"){
+  dict[i].lan = 7.8891
+  dict[i].long = -72.4967
+  dict[i].location = "Cucuta, Colombia"
+}else if(dict[i].location == "Fond du Lac, WI"){
+  dict[i].lan = 43.7730
+  dict[i].long = -88.4471
+}
+else if(dict[i].location == "Ottawa, Ontario"){
+  dict[i].lan = 45.4215
+  dict[i].long = -75.6972
+}else if(dict[i].location == "Calgary, Alberta"){
+  dict[i].lan = 51.0486
+  dict[i].long = -114.0708
+}
+else if(dict[i].location == "Quinte West, Ontario"){
+  dict[i].lan = 44.1790
+  dict[i].long = -77.5861
+}
+else if(dict[i].location == "Paradise, NV"){
+  dict[i].lan = 36.0972
+  dict[i].long = -115.1467
+}else if(dict[i].location == "Louisiana, USA"){
+  dict[i].lan = 30.9843
+  dict[i].long = -91.9623
+}else if(dict[i].location == "Minnesota, USA"){
+  dict[i].lan = 46.7296
+  dict[i].long = -94.6859
+}else if(dict[i].location == "Kansas, USA"){
+  dict[i].lan = 39.0119
+  dict[i].long = -98.4842
+}else if(dict[i].location == "West Virginia, USA"){
+  dict[i].lan = 38.5976
+  dict[i].long = -80.4549
+}else if(dict[i].location == "Delaware, USA"){
+  dict[i].lan = 38.9108
+  dict[i].long = -75.5277
+}else if(dict[i].location == "Greater Vancouver, British Columbia"){
+  dict[i].lan = 49.2827
+  dict[i].long = -123.1207
+}else if(dict[i].location == "New Jersey, USA"){
+  dict[i].lan = 40.0583
+  dict[i].long = -74.4057
+}else if(dict[i].location == "Arizona, USA"){
+  dict[i].lan = 34.0489
+  dict[i].long = -111.0937
+}else if(dict[i].location == "Montr���al, Qu���bec"){
+  dict[i].lan = 45.5017
+  dict[i].long = -73.5673
+  dict[i].location = "Montreal, Quebec"
+}else if(dict[i].location == "Massachusetts, USA"){
+  dict[i].lan =  42.407211
+  dict[i].long = -71.382439
+}else if(dict[i].location == "Iowa, USA"){
+  dict[i].lan =  41.8780
+  dict[i].long = -93.0977
+}
+else if(dict[i].location == "Washington, USA"){
+  dict[i].lan =  47.7511
+  dict[i].long = -120.7401
+}
+else if(dict[i].location == "Arkansas, USA"){
+  dict[i].lan =  35.2010
+  dict[i].long = -91.8318
+}
+else if(dict[i].location == "Oregon, USA"){
+  dict[i].lan =  43.8041
+  dict[i].long = -120.5542
+}
+else if(dict[i].location == "Honolulu, HI"){
+  dict[i].lan =  21.3069
+  dict[i].long = -157.8583
+}
+else if(dict[i].location == "Richmond, British Columbia"){
+  dict[i].lan =  49.1666
+  dict[i].long = -123.1336
+}
+}
+
+// newDict = []
+
+// for(i =0 ;i < dict.length;i++){
+//   if(dict[i].location != "Cucuta, Colombia")
+//     newDict.push(dict[i])
+//   // else if(dict[i].location != "Haiti")
+//   //       newDict.push(dict[i])
+// } 
+
+// temp2 = []
+
+// for(i =0 ;i < newDict.length;i++){
+//   if(newDict[i].location != "Panam����")
+//     temp2.push(dict[i])
+  
+// } 
+// temp3=[]
+// for(i =0 ;i < temp2.length;i++){
+//   if(temp2[i].location != "Haiti")
+//     temp3.push(dict[i])
+// } 
+
+// dict = newDict;
 
 // debugger;
 var freData = {cnt:[]};    
@@ -2132,7 +2330,6 @@ var frequencyData = freData.cnt;
 //draw bubbles for frequencyData
 freqMap.bubbles(frequencyData, {
     popupTemplate: function (geo, data) {
-      console.log(data);
             return ['<div class="hoverinfo">' +  data.name,
             '<br/>Frequency: ' +  data.freq + ' tweet(s)',
             '</div>'].join('');

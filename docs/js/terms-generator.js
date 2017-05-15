@@ -149,7 +149,6 @@ function preProcessData2() {
   var parse2 = d3.time.format("%Y %m %d %H");
   this.startProcess2 = function (filename, callback) {
     d3.csv(filename, function (data) {
-      console.log(data);
       data.forEach(function (d) {
         if(d.diseaseName.length>0){
         var timeStamp = d.timestamp;
@@ -221,7 +220,7 @@ function preProcessData2() {
 
       callback(allTerms);
       // console.log(lines);
-      console.log(allTerms);
+      
       
     });
   }
