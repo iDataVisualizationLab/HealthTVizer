@@ -512,7 +512,7 @@ function showNewWords2(vis, words) {
               .on("mousemove", function (d) {
                 //  d3.select(this).attr("opacity", "0.6");
                 wordTip.show(d, this);
-                // highlightLayer({term: d.text});
+                highlightLayer({term: d.text});
               })
                .on("mouseover", function (d) {
                  // console.log(d);
@@ -845,8 +845,8 @@ function showNewWords2(vis, words) {
             .attr("class", "layer")
             .call(updateLayer)
             .on("mouseover", function (d) {
-              // highlightLayer(d);
-              // highlightWord(d);
+              highlightLayer(d);
+              highlightWord(d);
             })
             .on("mouseout", function () {
               unhighlightLayer();
