@@ -250,3 +250,6 @@ h5 {
     padding-left: 10px;
     color: #000;
   }
+  #tiptable tr{
+    background: #fff;
+  }
