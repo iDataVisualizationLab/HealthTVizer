@@ -1718,7 +1718,7 @@ console.log(height);
       .direction('e')
       .html(function(d) {
        // console.log(d.meta);
-        return '<table id="tiptable" cellpadding="1" cellspacing="1" align="center">' + '<tr align="center"><td> <b>User ID</td><td> <b>Tweets</td><td> <b>Location</b> </td><td> <b>Disease Name</b> </td></tr>' + d + "</table>";
+        return '<table id="tiptable" cellpadding="1" cellspacing="1" align="center">' + '<tr align="center" style="padding:5px;"><td style="padding:5px;"> <b>User ID</td><td style="padding:5px;"> <b>Tweets</td><td style="padding:5px;"> <b>Location</b> </td><td style="padding:5px;"> <b>Disease Name</b> </td></tr>' + d + "</table>";
     })
 
     svg = d3.select('.chart')
