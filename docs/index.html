@@ -1773,6 +1773,32 @@ console.log(height);
               })
               
             })
+            .on('mouseover', function(d){
+
+              d3.csv("diseaseUserData.csv", function(error, contentData){
+                    var count = 0;
+                    var tweetContent = "";
+                    for(i=0;i<contentData.length;i++){
+                      if(myDiseaseName == "all" && contentData[i].userId == d[0]){
+                        // console.log(contentData.userId)
+                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
+                        count++;
+                      }
+                      else if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
+                        // console.log(contentData.userId)
+                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
+                        count++;
+                      }
+
+
+                      if(count>20)
+                        break;
+                    }
+                    console.log(tweetContent);
+                    tip.show(tweetContent, this);
+              })
+              
+            })
             .on('mouseout', tip.hide)
 
     scale = d3.scale.linear()
@@ -1812,9 +1838,34 @@ console.log(height);
               })
               
             })
+            .on('mouseover', function(d){
+
+              d3.csv("diseaseUserData.csv", function(error, contentData){
+                    var count = 0;
+                    var tweetContent = "";
+                    for(i=0;i<contentData.length;i++){
+                      if(myDiseaseName == "all" && contentData[i].userId == d[0]){
+                        // console.log(contentData.userId)
+                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
+                        count++;
+                      }
+                      else if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
+                        // console.log(contentData.userId)
+                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
+                        count++;
+                      }
+
+
+                      if(count>20)
+                        break;
+                    }
+                    console.log(tweetContent);
+                    tip.show(tweetContent, this);
+              })
+              
+            })
             .on('mouseout', tip.hide)
-
-
+            
     bar.append("text")
             .attr("class", "value")
             .attr("y", barHeight / 3)
