@@ -1462,7 +1462,8 @@ d3.csv("diseaseDatalonglan.csv", function(error, dict) {
 var freData = {cnt:[]};    
 
 diseaseList = [];
- userFreq = [];
+userFreq = [];
+top20Users = [];
 
 if(diseaseName != "all"){
   for(i=0 ; i < dict.length; i++){
@@ -1564,7 +1565,7 @@ userFreq = sortable.slice(0,21);
   }
 
   temp = [];
- 
+  
   diseaseList.push(endocrineList);
   temp.push(endocrineList);
   var counts = {};
@@ -1642,6 +1643,7 @@ userFreq = sortable.slice(0,21);
   sortable.sort(function(a, b) {
       return b[1] - a[1];
   });
+
   userFreq.push(sortable[0]);
 
 
@@ -2137,7 +2139,10 @@ freqMap.bubbles(frequencyData, {
     }
 });
 
-showUser(diseaseName, diseaseList, colorMap)
+if(diseaseName == "all")
+  showUser(diseaseName,userFreq,colorMap)
+else
+  showUser(diseaseName, diseaseList, colorMap)
 
 });
 
@@ -2158,23 +2163,30 @@ function showUser(diseaseName, diseaseList, mapColor){
 diseaseUser = {diseaseName:'', value:[]}
 diseaseUser.diseaseName = diseaseName;
 
-var counts = {};
+if(diseaseName != "all"){
+  var counts = {};
 
-for(var i = 0; i< diseaseList.length; i++) {
-    var num = diseaseList[i].userId;
-    counts[num] = counts[num] ? counts[num]+1 : 1;
-}
-
-var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
+  for(var i = 0; i< diseaseList.length; i++) {
+      var num = diseaseList[i].userId;
+      counts[num] = counts[num] ? counts[num]+1 : 1;
   }
 
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
-userFreq = sortable.slice(0,20);
-diseaseUser.value = userFreq;
+  var sortable = [];
+    for (var user in counts) {
+        sortable.push([user, counts[user]]);
+    }
+
+    sortable.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+  userFreq = sortable.slice(0,20);
+  diseaseUser.value = userFreq;
+}else{
+  diseaseList.sort(function(a,b){
+    return b[1] - a[1];
+  })
+  diseaseUser.value = diseaseList;
+}
 
 data = [];
 
