@@ -653,7 +653,8 @@ function showNewWords2(vis, words) {
       return a.frequency -b.frequency;
     });
        console.log(words)
-       lineColor.domain([words[0].frequency, words[49].frequency]);
+       var clLength = words.length;
+       lineColor.domain([words[0].frequency, words[clLength-1].frequency]);
       var cloud = svg2.selectAll("g text")
               .data(words, function (d) {
                 return d.text;
@@ -1747,32 +1748,7 @@ console.log(height);
             }).each(function() {
         labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
     })
-            .on('click', function(d){
-
-              d3.csv("diseaseUserData.csv", function(error, contentData){
-                    var count = 0;
-                    var tweetContent = "";
-                    for(i=0;i<contentData.length;i++){
-                      if(myDiseaseName == "all" && contentData[i].userId == d[0]){
-                        // console.log(contentData.userId)
-                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
-                        count++;
-                      }
-                      else if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
-                        // console.log(contentData.userId)
-                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
-                        count++;
-                      }
-
-
-                      if(count>20)
-                        break;
-                    }
-                    console.log(tweetContent);
-                    tip.show(tweetContent, this);
-              })
-              
-            })
+            .on('click', tip.hide)
             .on('mouseover', function(d){
 
               d3.csv("diseaseUserData.csv", function(error, contentData){
@@ -1816,28 +1792,7 @@ console.log(height);
             .attr("width", function(d){
                 return scale(d[1]);
             })
-            .on('click', function(d){
-
-
-              d3.csv("diseaseUserData.csv", function(error, contentData){
-                    var count = 0;
-                    var tweetContent = "";
-                    for(i=0;i<contentData.length;i++){
-                      if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
-                        // console.log(contentData.userId)
-                        tweetContent = tweetContent + "<div class=\"singletwitt\">" + contentData[i].content + "</div>";
-                        count++;
-                      }
-
-
-                      if(count>20)
-                        break;
-                    }
-                    console.log(tweetContent);
-                    tip.show(tweetContent, this);
-              })
-              
-            })
+            .on('click', tip.hide)
             .on('mouseover', function(d){
 
               d3.csv("diseaseUserData.csv", function(error, contentData){
@@ -1865,7 +1820,7 @@ console.log(height);
               
             })
             .on('mouseout', tip.hide)
-            
+
     bar.append("text")
             .attr("class", "value")
             .attr("y", barHeight / 3)
