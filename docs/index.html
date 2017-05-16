@@ -43,7 +43,6 @@
     <div id="footer4" style="position: relative; left: 170px;"> </div>
     <div id="container" style="height: 500px; width: 650px;" ></div>
   </div>
-</div>
 
 
   
@@ -58,7 +57,12 @@
 <div id="footer2">
     <div id="tagCloud2" runat="server"></div>
     <div id="timeline2" runat="server"></div>
-       
+
+</div>
+
+  <div class="col-md-8">
+    <div id="container8" class="container8" style="height: 800px; width: 1250px;" ></div>
+  </div>
 </div>
 
 </div>
@@ -173,6 +177,9 @@ var myDiseaseName = "all";
   });
 
 
+ var  diseasesList =[];
+ var  KeywordsList =[];
+
   function loadData(filename, source) {
    
     var data = preProcessData();
@@ -214,23 +221,21 @@ var myDiseaseName = "all";
 
         localallTermsArray.push(entry)
       }
-      // console.log(localallTermsArray);
-      // debugger;
 
         wnallTermsArray = localallTermsArray;
         wnallTermsMap = localallTermsMap;
         allTermsArray = wnallTermsArray;
         allTermsMap = wnallTermsMap
         topTerms = getTopTerms(allTermsArray);
+        diseasesList = topTerms;
         showNewWords(myWordCloud, topTerms);
         //Set stream graph, topterms.monthfreq contains monthly frequency
         setStreamGraph(topTerms);
        cloudmessages.attr("opacity", 0);
-
     });
-  data2.startProcess2(filename, function (data) {
+    data2.startProcess2(filename, function (data) {
            var localallTermsArray = [];
-    var localallTermsMap;
+      var localallTermsMap;
       // console.log(data)
       cloudmessages.attr("opacity", 1);
       localallTermsMap = data;
@@ -258,8 +263,6 @@ var myDiseaseName = "all";
           }
         }
         entry.values.monthfreq = monthly;
-
-
         localallTermsArray.push(entry)
       }
 
@@ -268,16 +271,158 @@ var myDiseaseName = "all";
         var allTermsArray = wnallTermsArray;
         allTermsMap = wnallTermsMap
         topTerms2 = getTopTerms(allTermsArray);
+        KeywordsList = topTerms2;
         showNewWords2(myWordCloud2, topTerms2);
         //Set stream graph, topterms.monthfreq contains monthly frequency
         setStreamGraph2(topTerms2);
        cloudmessages.attr("opacity", 0);
 
-    });
 
+       // Tommy 2017 ************************************
+        var svg8 = d3.select('.container8')
+            .append("svg")
+            .attr("width", 1000)
+            .attr("height", 800);
+
+        var width = +svg8.attr("width"),
+            height = +svg8.attr("height");
+
+
+        var force = d3.layout.force()
+            .gravity(0.08)
+            .distance(120)
+            .charge(-200)
+            .size([width, height]);
+
+
+
+        var nodes = [];
+        var links = [];
+        diseasesList.forEach( function (d){
+            var obj ={};
+            obj.term =  d.term;
+            obj.freq =  d.freq;
+            obj.category = "disease";
+            nodes.push(obj);
+        });
+
+        KeywordsList.forEach( function (d){
+            var obj ={};
+            obj.term =  d.term;
+            obj.freq =  d.freq;
+            obj.category = "keyword";
+            nodes.push(obj);
+        });
+
+        var minF =  1000000;
+        var maxF = 0;
+        for (var i=0; i< diseasesList.length;i++){
+            for (var j=0; j< KeywordsList.length;j++){
+                var di = diseasesList[i].term;
+                var ke = KeywordsList[j].term;
+                if (disease_keywords[di][ke] != undefined){
+                  var lin = {};
+                  lin.source = i;
+                  lin.target = diseasesList.length+j;
+                  lin.value = disease_keywords[di][ke].frequency;
+                  if (lin.value <minF) minF = lin.value;
+                  if (lin.value >maxF) maxF = lin.value;
+                  if (lin.value>100)
+                    links.push(lin);
+                }
+            }
+        }
+
+        var minD =  1000000;
+        var maxD = 0;
+        for (var i=0; i< diseasesList.length;i++){
+            if (diseasesList[i].freq <minD) minD = diseasesList[i].freq;
+            if (diseasesList[i].freq >maxD) maxD = diseasesList[i].freq;
+        }
+        var minK =  1000000;
+        var maxK = 0;
+        for (var j=0; j< KeywordsList.length;j++){
+            if (KeywordsList[j].freq <minK) minK = KeywordsList[j].freq;
+            if (KeywordsList[j].freq >maxK) maxK = KeywordsList[j].freq;
+        }
+
+        console.log("minF="+minF+"  maxF="+maxF);
+        console.log("minD="+minD+"  maxF="+maxD);
+        console.log("minD="+minK+"  maxF="+maxK);
+
+        var wScale = d3.scale.linear()
+                                   .domain([minF,maxF])
+                                   .range([1,6]);
+        var dScale = d3.scale.linear()
+            .domain([minD,maxD])
+            .range([15,33]);
+
+        var kScale = d3.scale.linear()
+            .domain([minK,maxK])
+            .range([12,25]);
+
+
+            force
+                .nodes(nodes)
+                .links(links)
+                .start();
+
+            var link = svg8.selectAll(".link")
+                .data(links)
+                .enter().append("line")
+                .attr("class", "link")
+                .attr("stroke-opacity", 0.25)
+                .attr("stroke-width", function(d){
+                    return wScale(d.value);
+                })
+                .attr("stroke", "#000");
+
+            var node = svg8.selectAll(".node")
+                .data(nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .attr("fill", function(d,i){
+                    if (d.category == "disease")
+                        return streamColor(i);
+                    else
+                        return "#000";
+                })
+                .call(force.drag);
+
+           // node.append("image")
+            //    .attr("xlink:href", "https://github.com/favicon.ico")
+            //    .attr("x", -8)
+            //    .attr("y", -8)
+            //    .attr("width", 16)
+            //    .attr("height", 16);
+
+            node.append("text")
+                .style("text-shadow", "1px 1px 0 rgba(0, 0, 0, 0.5")
+                .style("font-size",function(d) {
+                    if (d.category == "disease")
+                        return dScale(d.freq)+"px";
+                    else
+                        return kScale(d.freq)+"px";
+                })
+                .attr("dy", ".35em")
+                .attr("text-anchor", "middle")
+                .text(function(d) { return d.term });
+
+            force.on("tick", function() {
+                link.attr("x1", function(d) { return d.source.x; })
+                    .attr("y1", function(d) { return d.source.y; })
+                    .attr("x2", function(d) { return d.target.x; })
+                    .attr("y2", function(d) { return d.target.y; });
+
+                node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+            });
+
+
+
+    });
   }
 
- 
+
 
   function myLocalData(diseaseName){
       return  globalData.filter(function (d) {
