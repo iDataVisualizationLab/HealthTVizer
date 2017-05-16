@@ -3,6 +3,7 @@
 
 
 <head>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://d3js.org/d3.v3.js"></script>
 
@@ -35,6 +36,16 @@
 
 <body>
 <div id="spin">
+
+<div class="row">
+  <div class="col-md-5" >
+      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 10px;">Top User List</p>
+  </div>
+  <div class="col-md-7">
+      <p style="font-size:16px; font-weight: bold; font-family: verdana; text-align:center; padding-top: 10px;">Disease Map</p>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-md-5" style="padding-top: 10px; padding-left: 30px; height: 400px;">
     <div class="chart" id="userFreq"></div>
@@ -46,14 +57,30 @@
 
 
   
- 
-    
+<div class="row">
+  <div class="col-md-5" >
+      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 10px;">Disease cloud</p>
+  </div>
+  <div class="col-md-7" >
+      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 10px;">Interactive Stream graph 1</p>
+  </div>
+</div> 
+
+</div>
 <div id="footer">
     <div id="tagCloud" runat="server"></div>
     <div id="timeline" runat="server"></div>
        
 </div>
 
+<div class="row">
+  <div class="col-md-5" >
+      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 40px;">Term cloud</p>
+  </div>
+  <div class="col-md-7" >
+      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 40px;">Interactive Stream graph 2</p>
+  </div>
+</div> 
 <div id="footer2">
     <div id="tagCloud2" runat="server"></div>
     <div id="timeline2" runat="server"></div>
@@ -171,7 +198,7 @@ var myDiseaseName = "all";
     myWordCloud2 = wordCloud2('#tagCloud2');
 
     loadData("data/diseaseData.csv", "wn")
-    showMap("all","#FFDAB9")
+    showMap("all","#aaa")
     
 
   });
@@ -768,7 +795,7 @@ function showNewWords2(vis, words) {
        words.sort(function(a, b) {
       return a.frequency -b.frequency;
     });
-       console.log(words)
+       
        var clLength = words.length;
        lineColor.domain([words[0].frequency, words[clLength-1].frequency]);
       var cloud = svg2.selectAll("g text")
@@ -2477,13 +2504,14 @@ d3.selectAll('#userFreq svg').remove()
       .direction('e')
       .html(function(d) {
        // console.log(d.meta);
-        return '<table id="tiptable" cellpadding="1" cellspacing="1" align="center">' + '<tr align="center" style="padding:5px;"><td style="padding:5px;"> <b>User ID</td><td style="padding:5px;"> <b>Tweets</td><td style="padding:5px;"> <b>Time</b> </td><td style="padding:5px;"> <b>Location</b> </td><td style="padding:5px;"> <b>Disease Name</b> </td></tr>' + d + "</table>";
+        return '<table id="tiptable" cellpadding="1" cellspacing="1" align="center">' + '<tr align="center" style="padding:5px;"><td style="padding:5px;"> <b>User ID</td><td style="padding:5px; width:450px;"> <b>Tweets</td><td style="padding:5px;"> <b>Time</b> </td><td style="padding:5px;"> <b>Location</b> </td><td style="padding:5px;"> <b>Disease Name</b> </td></tr>' + d + "</table>";
     })
 
     svg = d3.select('.chart')
             .append("svg")
             .attr("width", width/2)
             .attr("height", height);
+   
 
     svg.call(tip);
     bar = svg.selectAll("g")
@@ -2516,12 +2544,12 @@ d3.selectAll('#userFreq svg').remove()
                     for(i=0;i<contentData.length;i++){
                       if(myDiseaseName == "all" && contentData[i].userId == d[0]){
                         // console.log(contentData.userId)
-                        tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
+                        tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px; width:450px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
                         count++;
                       }
                       else if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
                         // console.log(contentData.userId)
-                       tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
+                       tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px; width:450px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
                        
                         count++;
                       }
@@ -2530,7 +2558,7 @@ d3.selectAll('#userFreq svg').remove()
                       if(count>19)
                         break;
                     }
-                    console.log(tweetContent);
+                    
                     tip.show(tweetContent, this);
               })
               
@@ -2561,12 +2589,12 @@ d3.selectAll('#userFreq svg').remove()
                     for(i=0;i<contentData.length;i++){
                       if(myDiseaseName == "all" && contentData[i].userId == d[0]){
                         // console.log(contentData.userId)
-                        tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
+                        tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px; width:450px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
                         count++;
                       }
                       else if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
                         // console.log(contentData.userId)
-                       tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
+                       tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px; width:450px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
                        
                         count++;
                       }
@@ -2589,7 +2617,7 @@ d3.selectAll('#userFreq svg').remove()
             .attr("dy", ".35em") //vertical align middle
             .attr("text-anchor", "begin")
             .text(function(d){
-              console.log(d);
+              
                 return (d[1]);
             })
             .attr("x", function(d){

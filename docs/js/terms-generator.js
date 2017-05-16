@@ -296,8 +296,7 @@ function preProcessData3(dName) {
      var myData = myLocalData(dName);
       var count = 0;
     // d3.csv(filename, function (data) {
-      console.log(globalData);
-      console.log(myData);
+      
       myData.forEach(function (d) {
         if(d.diseaseName == dName){
           count = 100;
@@ -413,7 +412,7 @@ function preProcessData3(dName) {
       
 
       callback(allTerms);
-      console.log(allTerms)
+      
   }
 
   this.getRelated = function (term) {
