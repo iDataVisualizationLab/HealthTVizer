@@ -2,7 +2,7 @@
 
 Online demo: https://idatavisualizationlab.github.io/HealthTvizer/
 
-Previous work:  \url{https://github.com/iDataVisualizationLab/RumorViz}
+Previous work:  https://github.com/iDataVisualizationLab/RumorViz
 
 ## HealthTVizer: Exploring Health Awareness in Twitter Data through Coordinated Multiple Views
 <!-- Please click to watch the overview video. -->
