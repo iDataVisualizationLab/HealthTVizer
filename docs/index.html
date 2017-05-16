@@ -171,7 +171,7 @@ var myDiseaseName = "all";
     myWordCloud2 = wordCloud2('#tagCloud2');
 
     loadData("data/diseaseData.csv", "wn")
-    showMap("all","#FFDAB9")
+    showMap("all","#aaa")
     
 
   });
@@ -2477,7 +2477,7 @@ d3.selectAll('#userFreq svg').remove()
       .direction('e')
       .html(function(d) {
        // console.log(d.meta);
-        return '<table id="tiptable" cellpadding="1" cellspacing="1" align="center">' + '<tr align="center" style="padding:5px;"><td style="padding:5px;"> <b>User ID</td><td style="padding:5px;"> <b>Tweets</td><td style="padding:5px;"> <b>Time</b> </td><td style="padding:5px;"> <b>Location</b> </td><td style="padding:5px;"> <b>Disease Name</b> </td></tr>' + d + "</table>";
+        return '<table id="tiptable" cellpadding="1" cellspacing="1" align="center">' + '<tr align="center" style="padding:5px;"><td style="padding:5px;"> <b>User ID</td><td style="padding:5px; width:450px;"> <b>Tweets</td><td style="padding:5px;"> <b>Time</b> </td><td style="padding:5px;"> <b>Location</b> </td><td style="padding:5px;"> <b>Disease Name</b> </td></tr>' + d + "</table>";
     })
 
     svg = d3.select('.chart')
@@ -2516,12 +2516,12 @@ d3.selectAll('#userFreq svg').remove()
                     for(i=0;i<contentData.length;i++){
                       if(myDiseaseName == "all" && contentData[i].userId == d[0]){
                         // console.log(contentData.userId)
-                        tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
+                        tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px; width:450px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
                         count++;
                       }
                       else if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
                         // console.log(contentData.userId)
-                       tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
+                       tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px; width:450px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
                        
                         count++;
                       }
@@ -2561,12 +2561,12 @@ d3.selectAll('#userFreq svg').remove()
                     for(i=0;i<contentData.length;i++){
                       if(myDiseaseName == "all" && contentData[i].userId == d[0]){
                         // console.log(contentData.userId)
-                        tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
+                        tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px; width:450px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
                         count++;
                       }
                       else if(contentData[i].userId == d[0] && contentData[i].diseaseName ==myDiseaseName){
                         // console.log(contentData.userId)
-                       tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
+                       tweetContent = tweetContent + '<tr><td align="left" style="padding:5px;">' + contentData[i].userId + "</td>" + '<td align="left" style="padding:5px; width:450px;">' +contentData[i].content + '</td><td align="left" style="padding:5px;">' +contentData[i].timestamp.substring(0, 19) + '</td><td align="left" style="padding:5px;">' +contentData[i].location +'</td><td align="left" style="padding:5px;">' +contentData[i].diseaseName +"</td></tr>";
                        
                         count++;
                       }
