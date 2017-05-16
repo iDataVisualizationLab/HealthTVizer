@@ -1456,25 +1456,9 @@ secondColor = color(-0.5)
 thirdColor = color(-0.25)
 
 d3.csv("diseaseDatalonglan.csv", function(error, dict) {
+debugger;
 
-locationMissed = {}
 for(i = 0 ; i < dict.length; i++){
-  if(dict[i].long.length == 0 || dict[i].lan.length ==0)
-    locationMissed[dict[i].location] = locationMissed[dict[i].location] ? locationMissed[dict[i].location]+1 : 1
-}
-
-var sortable = [];
-    for (var user in locationMissed) {
-        sortable.push([user, locationMissed[user]]);
-    }
-
- sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-
- test = sortable.slice(0,50)
-
- for(i = 0 ; i < dict.length; i++){
 if(dict[i].location == "Texas, USA"){
   dict[i].long = -99.9018
   dict[i].lan = 31.9686
@@ -1630,671 +1614,635 @@ else if(dict[i].location == "Richmond, British Columbia"){
   dict[i].lan =  49.1666
   dict[i].long = -123.1336
 }
+else if(dict[i].location == "Miami, FL"){
+  dict[i].lan =  25.7617
+  dict[i].long = -80.1918
+}
 }
 
-// newDict = []
 
-// for(i =0 ;i < dict.length;i++){
-//   if(dict[i].location != "Cucuta, Colombia")
-//     newDict.push(dict[i])
-//   // else if(dict[i].location != "Haiti")
-//   //       newDict.push(dict[i])
-// } 
-
-// temp2 = []
-
-// for(i =0 ;i < newDict.length;i++){
-//   if(newDict[i].location != "Panam����")
-//     temp2.push(dict[i])
-  
-// } 
-// temp3=[]
-// for(i =0 ;i < temp2.length;i++){
-//   if(temp2[i].location != "Haiti")
-//     temp3.push(dict[i])
-// } 
-
-// dict = newDict;
-
-// debugger;
-var freData = {cnt:[]};    
-
-diseaseList = [];
-userFreq = [];
-top20Users = [];
-
+top20 = [];
 if(diseaseName != "all"){
-  for(i=0 ; i < dict.length; i++){
+    //////
+    cancers = []
+    for(i=0;i<dict.length;i++){
     if(dict[i].diseaseName == diseaseName){
-    diseaseList.push(dict[i]);
+      cancers.push(dict[i]);
+    }
 
     }
-  }
-  var counts = {};
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
 
-for(var i = 0; i< diseaseList.length; i++) {
-    var num = diseaseList[i].userId;
-    counts[num] = counts[num] ? counts[num]+1 : 1;
-}
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
 
-var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
-  }
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
 
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
-userFreq = sortable.slice(0,21);
-}else { 
+    locations = []
+    for(j=0;j<sortable.slice(0,20).length;j++){
+      for(i=0;i<cancers.length;i++){
+      if(sortable.slice(0,20)[j][0] == cancers[i].userId){
+        locations.push([cancers[i].long,cancers[i].lan,cancers[i].location].join('|'))
+    }
+    }
+    }
 
-  cancerUserList = [];
-  bloodUserList = [];
-  psychUserList = [];
+    countLoc = {}
+    for(i=0;i<locations.length;i++){
+      countLoc[locations[i]] = countLoc[locations[i]] ? countLoc[locations[i]]+1 :1
+    }
 
-  rareDiseaseList = [];
-  excretoryList = [];
-  injuryList = [];
-  musculoskeletalList = [];
-  multipleList = [];
-  neurologicalList = [];
-  immuneList = [];
-  congenitalList = [];
-  infectiousList = [];
-  reprodcutiveList = [];
-  senseOrgansList = [];
-  lymphaticList = [];
-  digestiveList = [];
-  metabolicList = [];
-  respiratoryList = [];
-  skinList = [];
-  cardiovascularList = [];
-  endocrineList = [];
-  for(i=0 ; i < dict.length; i++){
+
+    locationSort = [];
+    for(obj in countLoc){
+      locationSort.push([obj,countLoc[obj]]);
+    }
+
+    locationSort.sort(function(a,b){
+    return b[1] - a[1]
+    })
+}else{
+    cancers = []
+    for(i=0;i<dict.length;i++){
     if(dict[i].diseaseName == "cancer"){
-    cancerUserList.push(dict[i]);
+      cancers.push(dict[i]);
     }
-    if(dict[i].diseaseName == "Endocrine")
-      endocrineList.push(dict[i]);
-    else if(dict[i].diseaseName == "blood")
-      bloodUserList.push(dict[i]);
-    else if(dict[i].diseaseName == "Psych")
-      psychUserList.push(dict[i]);
 
-    else if(dict[i].diseaseName == "RareDiseases")
-      rareDiseaseList.push(dict[i]);
-    else if(dict[i].diseaseName == "Excretory")
-      excretoryList.push(dict[i]);
-    else if(dict[i].diseaseName == "Injury")
-      injuryList.push(dict[i]);
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
 
-    else if(dict[i].diseaseName == "Musculoskeletal")
-      musculoskeletalList.push(dict[i]);
-    else if(dict[i].diseaseName == "Multiple")
-      multipleList.push(dict[i]);
-    else if(dict[i].diseaseName == "Neurological")
-      neurologicalList.push(dict[i]);
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
 
-    else if(dict[i].diseaseName == "Immune")
-      immuneList.push(dict[i]);
-    else if(dict[i].diseaseName == "CongenitalAnomolies")
-      congenitalList.push(dict[i]);
-    else if(dict[i].diseaseName == "InfectiousParasitic")
-      infectiousList.push(dict[i]);
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
 
-    else if(dict[i].diseaseName == "Reproductive")
-      reprodcutiveList.push(dict[i]);
-    else if(dict[i].diseaseName == "SenseOrgansSkin")
-      senseOrgansList.push(dict[i]);
-    else if(dict[i].diseaseName == "Lymphatic")
-      lymphaticList.push(dict[i]);
+    top20.push(sortable[0])
+//////------
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "blood"){
+      cancers.push(dict[i]);
+    }
 
-    else if(dict[i].diseaseName == "Digestive")
-      digestiveList.push(dict[i]);
-    else if(dict[i].diseaseName == "Metabolic")
-      metabolicList.push(dict[i]);
-    else if(dict[i].diseaseName == "Respiratory")
-      respiratoryList.push(dict[i]);
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
 
-    else if(dict[i].diseaseName == "Skin")
-      skinList.push(dict[i]);
-    else if(dict[i].diseaseName == "cardiovascular")
-      cardiovascularList.push(dict[i]);
-  }
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
 
-  temp = [];
-  
-  diseaseList.push(endocrineList);
-  temp.push(endocrineList);
-  var counts = {};
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
 
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
+    top20.push(sortable[0])
 
-  var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
-  }
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Psych"){
+      cancers.push(dict[i]);
+    }
 
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
-  userFreq.push(sortable[0]);
-  
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
 
-  temp = [];
-  temp.push(cancerUserList);
-  var counts = {};
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
 
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
 
-  var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
-  }
+    top20.push(sortable[0])
 
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
-  userFreq.push(sortable[0]);
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Endocrine"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "RareDiseases"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Excretory"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Injury"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Musculoskeletal"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Multiple"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
 
 
-  temp = [];
-  temp.push(bloodUserList);
-  var counts = {};
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Neurological"){
+      cancers.push(dict[i]);
+    }
 
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
 
-  var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
-  }
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
 
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
-  userFreq.push(sortable[0]);
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
 
-  
-  temp = [];
-  temp.push(psychUserList);
-  var counts = {};
+    top20.push(sortable[0])
 
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Immune"){
+      cancers.push(dict[i]);
+    }
 
-  var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
-  }
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
 
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
 
-  userFreq.push(sortable[0]);
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "CongenitalAnomolies"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "InfectiousParasitic"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Reproductive"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "SenseOrgansSkin"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Lymphatic"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Digestive"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Metabolic"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Respiratory"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "Skin"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    cancers = []
+    for(i=0;i<dict.length;i++){
+    if(dict[i].diseaseName == "cardiovascular"){
+      cancers.push(dict[i]);
+    }
+
+    }
+    userCount={};
+    for(i = 0 ; i < cancers.length;i++){
+      userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
+    }
+
+    sortable = [];
+    for(obj in userCount){
+      sortable.push([obj,userCount[obj]]);
+    }
+
+    sortable.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    top20.push(sortable[0])
+
+    top20.sort(function(a,b){
+    return b[1] - a[1]
+    })
+
+    locations = []
+    for(j=0;j<top20.length;j++){
+      for(i=0;i<dict.length;i++){
+      if(top20[j][0] == dict[i].userId){
+        locations.push([dict[i].long,dict[i].lan,dict[i].location].join('|'))
+    }
+    }
+    }
+
+    countLoc = {}
+    for(i=0;i<locations.length;i++){
+      countLoc[locations[i]] = countLoc[locations[i]] ? countLoc[locations[i]]+1 :1
+    }
 
 
+    locationSort = [];
+    for(obj in countLoc){
+      locationSort.push([obj,countLoc[obj]]);
+    }
 
-  
-  temp = [];
-  temp.push(rareDiseaseList);
-  var counts = {};
+    locationSort.sort(function(a,b){
+    return b[1] - a[1]
+    })
 
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
-  }
-
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
-  userFreq.push(sortable[0]);
-
-  temp = [];
-  temp.push(excretoryList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
-  }
-
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
-  userFreq.push(sortable[0]);
-
-
-  
-  temp = [];
-  temp.push(injuryList);
-  var counts = {};
-
-for(var i = 0; i< temp[0].length; i++) {
-    var num = temp[0][i].userId;
-    counts[num] = counts[num] ? counts[num]+1 : 1;
 }
+/////
 
-var sortable = [];
-  for (var user in counts) {
-      sortable.push([user, counts[user]]);
-  }
-
-  sortable.sort(function(a, b) {
-      return b[1] - a[1];
-  });
-  userFreq.push(sortable[0]);
-
-  
-  temp = [];
-  temp.push(musculoskeletalList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
- 
-  
-   temp = [];
-  temp.push(multipleList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-
-
-  
-   temp = [];
-  temp.push(neurologicalList);
-  diseaseList.push(multipleList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-
-
-
-  
-    temp = [];
-  
-  temp.push(immuneList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-
-
-
-  
-    temp = [];
-  temp.push(congenitalList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-
-  
-     temp = [];
-  temp.push(infectiousList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-
-  
-    temp = [];
-  temp.push(reprodcutiveList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-  
-      temp = [];
-  temp.push(senseOrgansList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-  temp = [];
-  temp.push(lymphaticList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-
-
-  
-    temp = [];
-  temp.push(digestiveList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-  
-     temp = [];
-  temp.push(metabolicList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-  
-    temp = [];
-  temp.push(respiratoryList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
- temp = [];
-  temp.push(skinList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
-
-  temp = [];
-  temp.push(cardiovascularList);
-  var counts = {};
-
-  for(var i = 0; i< temp[0].length; i++) {
-      var num = temp[0][i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
-
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq.push(sortable[0]);
 debugger;
-  diseaseList = dict;
-}
+
+freData = {cnt:[]}
 
 
 
-
-debugger;
-test = [];
-for(i=0; i <diseaseList.length;i++){
-for(j=0; j < userFreq.length ; j++){
-  if(userFreq[j][0] == diseaseList[i].userId){
-    if(test.length != 0){
-      for(k = 0 ; k < test.length;k++){
-        if(test[k].userId == userFreq[j][0]){
-            test[k]["value"].push(diseaseList[i])
-          }
-        }
-          temp={userId:"", user:0,cnt:[], value:[]}
-          temp.userId = userFreq[j][0];
-          temp.user = userFreq[j][1];
-          temp.value.push(diseaseList[i]);
-          test.push(temp) 
-      }
-      else if(test.length == 0){
-        temp={userId:"", user:0, cnt:[], value:[]}
-        temp.userId = userFreq[j][0];
-        temp.user = userFreq[j][1];
-        temp.value.push(diseaseList[i]);
-        test.push(temp)
-      }
-    }
-  }
-}
-
-
-for(i=0;i<test.length;i++){
-var counts1 = {};
-for(j=0;j<test[i]["value"].length;j++){
-  var num = [test[i]["value"][j].lan, test[i]["value"][j].long,test[i]["value"][j].location].join('|');
-    counts1[num] = counts1[num] ? counts1[num]+1 : 1;
-  test[i].cnt =  counts1
-}
-}
-
-maxLegend = Math.max.apply(Math,test.map(function(o){for(obj in o.cnt) return o.cnt[obj];}))
-minLegend = Math.min.apply(Math,test.map(function(o){for(obj in o.cnt) return o.cnt[obj];}))
+maxLegend = locationSort[0][1]
+minLegend = locationSort[19][1]
 portion = (maxLegend + minLegend) / 4;
 legendDemo();
 
-for(i = 0 ; i < test.length; i++){
-  for(obj in test[i].cnt){
-    if(test[i].cnt[obj] < minLegend + portion){
+
+  for(obj in countLoc){
+    if(countLoc[obj] < minLegend + portion){
        freData.cnt.push({
               name: obj.split('|')[2],
-              freq: test[i].cnt[obj],
+              freq: countLoc[obj],
               fillKey: 'first',
-               radius: Math.sqrt(test[i].cnt[obj]),
-                latitude: obj.split('|')[0],
-                  longitude: obj.split('|')[1]
+               radius: Math.sqrt(countLoc[obj]),
+                latitude: obj.split('|')[1],
+                  longitude: obj.split('|')[0]
           
               })
      }
-     if(test[i].cnt[obj] < minLegend + (2*portion) && test[i].cnt[obj]>= minLegend + portion){
+     if(countLoc[obj] < minLegend + (2*portion) && countLoc[obj]>= minLegend + portion){
        freData.cnt.push({
               name: obj.split('|')[2] ,
-              freq: test[i].cnt[obj],
+              freq: countLoc[obj],
               fillKey: 'second',
-               radius: Math.sqrt(test[i].cnt[obj]),
-                latitude: obj.split('|')[0],
-                  longitude: obj.split('|')[1]
+               radius: Math.sqrt(countLoc[obj]),
+                latitude: obj.split('|')[1],
+                  longitude: obj.split('|')[0]
           
               })
      }
-     if(test[i].cnt[obj] < minLegend + (3*portion) && test[i].cnt[obj] >= minLegend + (2*portion)){
+     if(countLoc[obj] < minLegend + (3*portion) && countLoc[obj]>= minLegend + (2*portion)){
        freData.cnt.push({
               name: obj.split('|')[2] ,
-              freq: test[i].cnt[obj],
+              freq: countLoc[obj],
               fillKey: 'third',
-               radius: Math.sqrt(test[i].cnt[obj]),
-                latitude: obj.split('|')[0],
-                  longitude: obj.split('|')[1]
+               radius: Math.sqrt(countLoc[obj]),
+                latitude: obj.split('|')[1],
+                  longitude: obj.split('|')[0]
           
               })
      }
-     if(test[i].cnt[obj] >= minLegend + (3*portion)){
+     if(countLoc[obj] >= minLegend + (3*portion)){
        freData.cnt.push({
               name: obj.split('|')[2] ,
-              freq: test[i].cnt[obj],
+              freq: countLoc[obj],
               fillKey: 'forth',
-               radius: Math.sqrt(test[i].cnt[obj]),
-                latitude: obj.split('|')[0],
-                  longitude: obj.split('|')[1]
+               radius: Math.sqrt(countLoc[obj]),
+                latitude: obj.split('|')[1],
+                  longitude: obj.split('|')[0]
           
               })
      }
   }
-}
+
 // debugger;
 a = d3.selectAll('.datamaps-hoverover')
 if(a[0].length > 0)
@@ -2337,9 +2285,9 @@ freqMap.bubbles(frequencyData, {
 });
 
 if(diseaseName == "all")
-  showUser(diseaseName,userFreq,colorMap)
+  showUser(diseaseName,top20,colorMap)
 else
-  showUser(diseaseName, diseaseList, colorMap)
+  showUser(diseaseName, sortable.slice(0,20), colorMap)
 
 });
 
@@ -2360,30 +2308,12 @@ function showUser(diseaseName, diseaseList, mapColor){
 diseaseUser = {diseaseName:'', value:[]}
 diseaseUser.diseaseName = diseaseName;
 
-if(diseaseName != "all"){
-  var counts = {};
 
-  for(var i = 0; i< diseaseList.length; i++) {
-      var num = diseaseList[i].userId;
-      counts[num] = counts[num] ? counts[num]+1 : 1;
-  }
+diseaseList.sort(function(a,b){
+  return b[1] - a[1];
+})
+diseaseUser.value = diseaseList;
 
-  var sortable = [];
-    for (var user in counts) {
-        sortable.push([user, counts[user]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-  userFreq = sortable.slice(0,20);
-  diseaseUser.value = userFreq;
-}else{
-  diseaseList.sort(function(a,b){
-    return b[1] - a[1];
-  })
-  diseaseUser.value = diseaseList;
-}
 
 data = [];
 
