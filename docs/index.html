@@ -36,7 +36,7 @@
 <body>
 <div id="spin">
 <div class="row">
-  <div class="col-md-5" style="padding-top: 100px; padding-left: 30px; height: 400px;">
+  <div class="col-md-5" style="padding-top: 10px; padding-left: 30px; height: 400px;">
     <div class="chart" id="userFreq"></div>
   </div>
   <div class="col-md-7">
@@ -2324,7 +2324,6 @@ d3.selectAll('#userFreq svg').remove()
             barPadding = (height-axisMargin-margin*2)*0.01/data.length,
             data, bar, svg, scale, xAxis, labelWidth = 0;
 
-console.log(height);
     max = d3.max(data[0].value, function(d) { return d[1]; });
 
      var tip = d3.tip()
@@ -2486,7 +2485,7 @@ console.log(height);
   if (arr[0].length > 0)
     d3.selectAll('#footer4 svg').remove()
 
-  d3.select("#footer4").append("svg:svg").attr("width",300).attr("height",100).append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(horizontalLegend);
+  d3.select("#footer4").append("svg:svg").attr("width",300).attr("height",50).append("g").attr("transform", "translate(100,20)").attr("class", "legend").call(horizontalLegend);
 
   
 
