@@ -1,10 +1,6 @@
-# HealthTVizer
 
-Online demo: https://idatavisualizationlab.github.io/HealthTvizer/
 
-Previous work:  https://github.com/iDataVisualizationLab/RumorViz
-
-## HealthTVizer: Exploring Health Awareness in Twitter Data through Coordinated Multiple Views
+### HealthTVizer: Exploring Health Awareness in Twitter Data through Coordinated Multiple Views
 <!-- Please click to watch the overview video. -->
 
 <!-- [![ScreenShot](https://github.com/iDataVisualizationLab/DycomDetector/blob/master/images/play-btn.png)](http://www.myweb.ttu.edu/mdykabir/DycomDetectorIntro.mp4) -->
@@ -33,8 +29,8 @@ The key features of HealthTVizer are:
 
 
 
-
-
+### References
+Previous work:  https://github.com/iDataVisualizationLab/RumorViz
 
 
 
