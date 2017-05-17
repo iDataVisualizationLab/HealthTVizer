@@ -2532,8 +2532,8 @@ d3.selectAll('#userFreq svg').remove()
             }).each(function() {
         labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
     })
-            .on('click', tip.hide)
-            .on('mouseover', function(d){
+            // .on('click', tip.hide)
+            .on('click', function(d){
 
               d3.csv("diseaseUserData.csv", function(error, contentData){
                     var count = 0;
@@ -2577,8 +2577,8 @@ d3.selectAll('#userFreq svg').remove()
             .attr("width", function(d){
                 return scale(d[1]);
             })
-            .on('click', tip.hide)
-            .on('mouseover', function(d){
+            // .on('click', tip.hide)
+            .on('click', function(d){
 
               d3.csv("diseaseUserData.csv", function(error, contentData){
                     var count = 0;
