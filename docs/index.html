@@ -382,6 +382,7 @@ var myDiseaseName = "all";
         console.log("minF="+minF+"  maxF="+maxF);
         console.log("minD="+minD+"  maxF="+maxD);
         console.log("minD="+minK+"  maxF="+maxK);
+        lineColor.domain([minK, maxK]);
 
         var wScale = d3.scale.linear()
                                    .domain([minF,maxF])
@@ -436,6 +437,10 @@ var myDiseaseName = "all";
                         return dScale(d.freq)+"px";
                     else
                         return kScale(d.freq)+"px";
+                })
+                .attr("fill", function(d){
+                  if(d.category!="disease")
+                    return lineColor(d.freq);
                 })
                 .attr("dy", ".35em")
                 .attr("text-anchor", "middle")
