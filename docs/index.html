@@ -693,7 +693,7 @@ function showNewWords2(vis, words) {
               .on("mousemove", function (d) {
                 //  d3.select(this).attr("opacity", "0.6");
                 wordTip.show(d, this);
-                highlightLayer({term: d.text});
+                // highlightLayer({term: d.text});
               })
                .on("mouseover", function (d) {
                  // console.log(d);
@@ -835,11 +835,14 @@ function showNewWords2(vis, words) {
               .on("mousemove", function (d) {
                 //  d3.select(this).attr("opacity", "0.6");
                 wordTip.show(d, this);
+                highlightWord2(d); 
                 highlightLayer2({term: d.text});
+
               })
               .on("mouseout", function (d) {
                 d3.select(this).attr("opacity", "1");
                 wordTip.hide();
+                unHighlightWord2()
                 unhighlightLayer2();
               })
               //handle single and double clicks
@@ -1026,12 +1029,12 @@ function showNewWords2(vis, words) {
             .attr("class", "layer")
             .call(updateLayer)
             .on("mouseover", function (d) {
-              highlightLayer(d);
-              highlightWord(d);
+              // highlightLayer(d);
+              // highlightWord(d);
             })
             .on("mouseout", function () {
-              unhighlightLayer();
-              unHighlightWord();
+              // unhighlightLayer();
+              // unHighlightWord();
             });
 
     // Lines separating stacked layers.
@@ -1475,7 +1478,7 @@ lineColor.domain([topTerms[0].freq, topTerms[49].freq]);
     var cloudText = svg2.selectAll("g text")
             .each(function (d1) {
               var currentText = d3.select(this);
-              if (d1.text == d.term) {
+              if (d1.text == d.text) {
                 wordTip.show(d1, this);
                 currentText.attr("opacity", "1");
               } else {
