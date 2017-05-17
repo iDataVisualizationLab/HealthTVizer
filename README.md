@@ -18,7 +18,8 @@ HealthTVizer contains coordinated multiple views which highlight different tweet
 
 The key features of HealthTVizer are:
 
-**Box A:** 
+**Box A: Top user list** 
+The top user list represents the users based on the number of tweets about any particular disease type. After clicking on diseases cloud, the list will automatically update with respect to the corresponding disease. On hovering on the user ID or user tweets count bar, a table will pop up displaying the 20 tweets of that particular user.
 
 **Box B:** 
 
