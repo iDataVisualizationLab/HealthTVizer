@@ -38,7 +38,7 @@
 <div id="spin">
 
 <div class="row">
-  <div class="col-md-5" >
+  <div class="col-md-5">
       <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 10px;">Top User List</p>
   </div>
   <div class="col-md-7">
@@ -87,8 +87,8 @@
 
 </div>
 
-  <div class="col-md-8">
-    <div id="container8" class="container8" style="height: 800px; width: 1250px;" ></div>
+  <div class="col-md-12">
+    <div id="container8" class="container8" style="height: 400px; width: 1250px;" ></div>
   </div>
 </div>
 
@@ -1802,6 +1802,7 @@ if(diseaseName != "all"){
     }
 
     }
+
     userCount={};
     for(i = 0 ; i < cancers.length;i++){
       userCount[cancers[i].userId] = userCount[cancers[i].userId] ? userCount[cancers[i].userId]+1 : 1
@@ -1817,12 +1818,8 @@ if(diseaseName != "all"){
     })
 
     locations = []
-    for(j=0;j<sortable.slice(0,20).length;j++){
-      for(i=0;i<cancers.length;i++){
-      if(sortable.slice(0,20)[j][0] == cancers[i].userId){
-        locations.push([cancers[i].long,cancers[i].lan,cancers[i].location].join('|'))
-    }
-    }
+    for(i=0;i<cancers.length;i++){
+      locations.push([cancers[i].long,cancers[i].lan,cancers[i].location].join('|'))
     }
 
     countLoc = {}
@@ -2361,7 +2358,7 @@ freData = {cnt:[]}
 
 
 maxLegend = locationSort[0][1]
-minLegend = locationSort[19][1]
+minLegend = locationSort[locationSort.length-1][1]
 portion = (maxLegend + minLegend) / 4;
 legendDemo();
 
