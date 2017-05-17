@@ -27,7 +27,18 @@ The top user list represents the users based on the number of tweets about any p
 
 **Box D:** 
 
+User Stories: 
+Cancer: 
+![ScreenShot](https://raw.githubusercontent.com/iDataVisualizationLab/HealthTvizer/master/images/cancer.png)
 
+![ScreenShot](https://raw.githubusercontent.com/iDataVisualizationLab/HealthTvizer/master/images/cancerHover.png)
+
+Autism:
+![ScreenShot](https://raw.githubusercontent.com/iDataVisualizationLab/HealthTvizer/master/images/autism.png)
+
+AutismSocietySD, Jan 10, San Marcos, CA
+7th annual swimming with autism conference. 
+@autismparentmag 7th annual swimming with autism conference march 4-5! info registration @Ì¢ï¿½ï¿½ï¿½_ https://t.co/htmiww1aw3
 
 
 ### References
