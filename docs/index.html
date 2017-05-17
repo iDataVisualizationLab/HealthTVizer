@@ -102,6 +102,7 @@
 
 <script>
 var globalData = [];
+var globalContentData;
 var myData = [];
 var myDiseaseName = "all";
   var source = "wn";
@@ -210,11 +211,10 @@ var myDiseaseName = "all";
   function loadData(filename, source) {
    
     var data = preProcessData();
-      // console.log(data);
+
      var data2 = preProcessData2();
     // console.log(data2);
     data.startProcess(filename, function (data) {
-      // console.log(data)
     var localallTermsArray = [];
     var localallTermsMap;
       cloudmessages.attr("opacity", 1);
@@ -250,6 +250,7 @@ var myDiseaseName = "all";
       }
 
         wnallTermsArray = localallTermsArray;
+        console.log(wnallTermsArray);
         wnallTermsMap = localallTermsMap;
         allTermsArray = wnallTermsArray;
         allTermsMap = wnallTermsMap
@@ -259,33 +260,38 @@ var myDiseaseName = "all";
         //Set stream graph, topterms.monthfreq contains monthly frequency
         setStreamGraph(topTerms);
        cloudmessages.attr("opacity", 0);
+           console.log(data);
+           debugger;
     });
+
     data2.startProcess2(filename, function (data) {
+            console.log(data)
+            globalContentData = data;
            var localallTermsArray = [];
       var localallTermsMap;
       // console.log(data)
       cloudmessages.attr("opacity", 1);
-      localallTermsMap = data;
+      localallTermsMap = data.all;
       var monthly = [];
       var currmonth;
-      for (var term in data) {
+      for (var term in data.all) {
         monthly = []
         var entry = {};
         entry.term = term;
         entry.values = {};
-        for (var val in data[term]) {
+        for (var val in data.all[term]) {
           if (val == "frequency") {
-            entry.values.frequency = data[term][val];
+            entry.values.frequency = data.all[term][val];
           }
           else if (val == "category") {
-            entry.values.category = data[term][val];
+            entry.values.category = data.all[term][val];
           }
           else {
             currmonth = parse.parse(val);
             monthly.push({
               "month": currmonth,
-              "freq": data[term][val].freq,
-              "blogs": data[term][val].blogs
+              "freq": data.all[term][val].freq,
+              "blogs": data.all[term][val].blogs
             })
           }
         }
@@ -459,34 +465,32 @@ var myDiseaseName = "all";
 
 
     function loadDataUpdate(dName) {
-     var data3 = preProcessData3(dName);
-    // console.log(data3);
-  data3.startProcess3(dName, function (data) {
-           var localallTermsArray = [];
+    var localallTermsArray = [];
     var localallTermsMap;
       // console.log(data)
       cloudmessages.attr("opacity", 1);
-      localallTermsMap = data;
+      localallTermsMap = globalContentData[dName];
+      console.log(localallTermsMap)
       var monthly = [];
       var currmonth;
-      for (var term in data) {
+      for (var term in globalContentData[dName]) {
         monthly = []
         var entry = {};
         entry.term = term;
         entry.values = {};
-        for (var val in data[term]) {
+        for (var val in globalContentData[dName][term]) {
           if (val == "frequency") {
-            entry.values.frequency = data[term][val];
+            entry.values.frequency = globalContentData[dName][term][val];
           }
           else if (val == "category") {
-            entry.values.category = data[term][val];
+            entry.values.category = globalContentData[dName][term][val];
           }
           else {
             currmonth = parse.parse(val);
             monthly.push({
               "month": currmonth,
-              "freq": data[term][val].freq,
-              "blogs": data[term][val].blogs
+              "freq": globalContentData[dName][term][val].freq,
+              "blogs": globalContentData[dName][term][val].blogs
             })
           }
         }
@@ -508,7 +512,7 @@ var myDiseaseName = "all";
         
        cloudmessages.attr("opacity", 0);
 
-    });
+
   
   }
 
