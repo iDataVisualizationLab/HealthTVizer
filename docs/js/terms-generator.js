@@ -1,7 +1,7 @@
 ﻿/**
  * Created by Manohar on 25-Oct-16.
  */
-
+var globalAllDiseaseTerms = new Object();
 var disease_keywords ={};
 var user_user ={};
 var disease_keywords_array = {};
@@ -43,11 +43,9 @@ function preProcessData() {
         d.time = time;
         var month = parse2(timeNow);
         ++lines;
-        var contentTerms;
+        // var contentTerms;
 
         var diseaseName = d.diseaseName.split(",");
-
-
         diseaseName.forEach(function (d) {
           if(stopObj[d]!=1){
           if (d) {
@@ -278,11 +276,56 @@ function preProcessData2() {
 
         })
 
+
+        var diseaseName = d.diseaseName.split(",");
+        diseaseName.forEach(function (d) {
+          if(stopObj[d]!=1){
+          if (d) {
+
+            //allTerms consideration.
+            if (allTerms[d]) {
+              var freq = allTerms[d].frequency;
+              allTerms[d].frequency = freq + 1;
+              if (allTerms[d][month]) {
+                allTerms[d][month].freq = allTerms[d][month].freq + 1;
+                allTerms[d][month].blogs.push(lines);
+              }
+              else {
+                allTerms[d][month] = new Object();
+                allTerms[d][month].freq = 1;
+                allTerms[d][month].blogs = [];
+                allTerms[d][month].blogs.push(lines);
+
+              }
+            }
+            else {
+              allTerms[d] = new Object();
+              allTerms[d].frequency = 1;
+              allTerms[d].category = "Person";
+              if (allTerms[d][month]) {
+                allTerms[d][month].freq = allTerms[d][month].freq + 1;
+                allTerms[d][month].blogs.push(lines);
+              }
+              else {
+                allTerms[d][month] = new Object();
+                allTerms[d][month].freq = 1;
+                allTerms[d][month].blogs = [];
+                allTerms[d][month].blogs.push(lines);
+
+              }
+
+            }
+          }
+          }
+
+        })
+        
+
         globalObj.content = globalContent;
         globalData.push(globalObj);
       }
       });
-
+      globalAllDiseaseTerms = allTerms;
       callback(disease_keywords_array);
       
       
