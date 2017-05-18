@@ -128,26 +128,26 @@ h5 {
 }
 
 #tagCloud2{
-    width: 40%;
+    /*width: 40%;*/
     float: left;
 }
 #timeline2{
-    width: 60%;
-    float: right;
-    height: 500px;
+    /*width: 60%;*/
+    /*float: right;*/
+    /*height: 500px;*/
 }
 
 #footer2{
     
-    width: 100%;
-    border: 1px;
-    height: 300px;
+    /*width: 100%;*/
+    /*border: 1px;*/
+    /*height: 300px;*/
 }
 
 
 #footer{
 
-    width: 100%;
+/*    width: 100%;*/
     border: 1px;
     height: 300px;
 }
@@ -157,8 +157,8 @@ h5 {
     float: left;
 }
 #timeline{
-    width: 60%;
-    float: right;
+    /*width: 60%;*/
+    /*float: right;*/
     height: 300px;  
 }
 
@@ -263,3 +263,79 @@ h5 {
     margin-right: 1px;
     border-right: 1px solid #ccc;
   }
+.col-md-5 {
+    width: 42%;
+    margin-right: 10px;
+
+}
+  .col-md-7 {
+    width: 53%;
+}
+
+#userList{
+  border: 2px solid #777;
+      min-height: 600px;
+}
+
+#map{
+  border: 2px solid #777;
+  min-height: 600px;
+}
+#diseaseCloud{
+  float: left;
+  border: 2px solid #777;
+  margin-right: 10px;
+}
+#diseaseStream{
+  border: 2px solid #777;
+}
+#footer{
+
+
+}
+#footer2{
+  margin-top: 25px;
+}
+#tagCloud{
+  border: 2px solid #777;
+  margin-right: 10px;
+  width: 42%;
+  min-height: 370px;
+  margin-left: 30px;
+}
+#timeline{
+  border: 2px solid #777;
+  width: 53%;
+  min-height: 370px;
+}
+#tagCloud2{
+  border: 2px solid #777;
+  margin-right: 10px;
+  width: 42%;
+  min-height: 370px;
+  margin-left: 30px;
+}
+#timeline2{
+  border: 2px solid #777;
+  width: 53%;
+  min-height: 370px;
+}
+#network{
+  margin-top: 25px;
+  margin-bottom: 50px;
+  width: 95.5%;
+  margin-left: 30px;
+
+}
+#container8{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #777;
+}
+h3{
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+}

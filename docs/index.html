@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/app.css">
 
-  <link rel="stylesheet" type="text/css" href="style.css">
 
     <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -32,72 +31,59 @@
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-<div id="spin">
+<!-- <div id="spin"> -->
 
-<div class="row">
+<!-- <div class="row">
   <div class="col-md-5">
       <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 10px;">Top User List</p>
   </div>
   <div class="col-md-7">
       <p style="font-size:16px; font-weight: bold; font-family: verdana; text-align:center; padding-top: 10px;">Disease Map</p>
   </div>
-</div>
+</div> -->
 
 <div class="row">
-  <div class="col-md-5" style="padding-top: 10px; padding-left: 30px; height: 400px;">
+  <div id="userList" class="col-md-5" style="margin-left: 30px;">
+
+  <h3>Top User List</h3>
     <div class="chart" id="userFreq"></div>
   </div>
-  <div class="col-md-7">
+  <div id="map" class="col-md-7">
+  <h3>Disease Map</h3>
     <div id="footer4" style="position: relative; left: 170px;"> </div>
     <div id="container" style="height: 500px; width: 650px;" ></div>
   </div>
-
+</div>
 
   
 <div class="row">
-  <div class="col-md-5" >
-      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 10px;">Disease cloud</p>
-  </div>
-  <div class="col-md-7" >
-      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 10px;">Interactive Stream graph 1</p>
-  </div>
+<br/><br/>
 </div> 
 
-</div>
-<div id="footer">
-    <div id="tagCloud" runat="server"></div>
-    <div id="timeline" runat="server"></div>
-       
+<div id="footer" class="row">
+    <div class="col-md-5" id="tagCloud" runat="server"><h3>Diseases cloud</h3></div>
+    <div class="col-md-7" id="timeline" runat="server"><h3>Diseases streamgraph</h3></div>     
 </div>
 
 <div class="row">
-  <div class="col-md-5" >
-      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 40px;">Term cloud</p>
-  </div>
-  <div class="col-md-7" >
-      <p style="font-size:16px; font-weight: bold;font-family: verdana; text-align:center; padding-top: 40px;">Interactive Stream graph 2</p>
-  </div>
+<br/><br/>
 </div> 
-<div id="footer2">
-    <div id="tagCloud2" runat="server"></div>
-    <div id="timeline2" runat="server"></div>
+<div id="footer2" class="row">
+    <div class="col-md-5" id="tagCloud2" runat="server"><h3>Keywords cloud</h3></div>
+    <div class="col-md-7" id="timeline2" runat="server"><h3>Keywords streamgraph</h3></div>
 
-</div>
 
-  <div class="col-md-12">
-    <div id="container8" class="container8" style="height: 400px; width: 1250px;" ></div>
+  <div class="col-md-12" id="network">
+    <div id="container8" class="container8">
+      <h3>Network of Diseases and Keywords</h3>
+    </div>
   </div>
 </div>
-
-</div>
-
-
-
-
-
 
 
 <script>
