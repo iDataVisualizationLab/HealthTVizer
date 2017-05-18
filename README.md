@@ -1,5 +1,3 @@
-
-
 ### HealthTVizer: Exploring Health Awareness in Twitter Data through Coordinated Multiple Views
 <!-- Please click to watch the overview video. -->
 
@@ -21,12 +19,17 @@ The key features of HealthTVizer are:
 **Box A: Top user list** 
 The top user list represents the users based on the number of tweets about any particular disease type. After clicking on diseases cloud, the list will automatically update with respect to the corresponding disease. On hovering on the user ID or user tweets count bar, a table will pop up displaying the 20 tweets of that particular user.
 
-**Box B:** 
+**Box B: Diseas map** 
 
-**Box C:** 
+The distribution of top 20 users tweets related to all 21 different diseases is depicted in the United States map represent in Box B.  On loading of the application the map shows the user tweets related all the diseases. However, if a viewer clicks on the particular disease from disease cloud the map and user list bar chart will be updated automatically and visualize the related disease tweets locations.  
+
+**Box C: Network of Diseases and Keywords**
+Box C, shows the overview network of 20 diseases and top 50 popular keywords from January 6 to January 31, 2017, on Twitter. The thickness of a link indicates the relationships frequency between the diseases and keywords based on the co-location in the same tweets.  
 
 **Box D:** 
 
+**Box E:**
+ 
 User Stories: 
 Cancer: 
 ![ScreenShot](https://raw.githubusercontent.com/iDataVisualizationLab/HealthTvizer/master/images/cancer.png)
