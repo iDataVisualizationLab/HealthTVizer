@@ -12,7 +12,7 @@ We processed and analyzed over 57 million tweets and pick the tweets related to 
 
 HealthTVizer contains coordinated multiple views which highlight different tweet attributes: User ID, geolocation, keywords, time stamp, and the related disease. The following image shows the key features of the HealthTVizer. 
 
-![ScreenShot](https://raw.githubusercontent.com/iDataVisualizationLab/HealthTvizer/master/images/teaser1.png)
+![ScreenShot](https://raw.githubusercontent.com/iDataVisualizationLab/HealthTvizer/master/images/teaser.png)
 
 The key features of HealthTVizer are:
 
