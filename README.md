@@ -26,7 +26,7 @@ The distribution of top 20 users tweets related to all 21 different diseases is 
 **Box C: Network of Diseases and Keywords**
  The overview network of 20 diseases and top 50 popular keywords from January 6 to January 31, 2017, on Twitter are visualize on Box (c). The thickness of a link indicates the relationships frequency between the diseases and keywords based on the co-location in the same tweets.  
 
-**Box D:** 
+**Box D: ** 
 The diseases streamgraph represents the discussion about 21 diseases obtained by the hashtag of the tweets. The disease streamlines are ordered based on the frequency of the discussion on the related tweets. 
 
 **Box E:**
