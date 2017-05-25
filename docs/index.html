@@ -49,7 +49,6 @@
 
 <div class="row">
   <div id="userList" class="col-md-5" style="margin-left: 30px;">
-
   <h3>Top User List</h3>
     <div class="chart" id="userFreq"></div>
   </div>
@@ -246,8 +245,8 @@ var myDiseaseName = "all";
         //Set stream graph, topterms.monthfreq contains monthly frequency
         setStreamGraph(topTerms);
        cloudmessages.attr("opacity", 0);
-           console.log(data);
-           debugger;
+           // console.log(data);
+           // debugger;
     });
 
     data2.startProcess2(filename, function (data) {
@@ -653,6 +652,7 @@ function showNewWords2(vis, words) {
 
       mappingDiseaseNameColor = {diseaseName: '', color : ''};
       mapList = []
+      mapColorList = {}
       k = 0;
       
       //Entering words
@@ -663,6 +663,7 @@ function showNewWords2(vis, words) {
               .style("font-family", "Impact")
               .style("fill", function (d, i) {
                  mapList[i] = {diseaseName: d.text, color: streamColor(i)};
+                 mapColorList[d.text] = mapColorList[d.text] ? streamColor(i) : streamColor(i)
                  return streamColor(i);
 
               })
@@ -1626,7 +1627,14 @@ secondColor = color(-0.5)
 thirdColor = color(-0.25)
 
 d3.csv("diseaseDatalonglan.csv", function(error, dict) {
-
+newDict = [];
+for(i = 0 ;i < dict.length; i++){
+  usLocation = dict[i].location.split(',');
+  if(usLocation[1] != undefined)
+    if(usLocation[1].length < 5 )
+      newDict.push(dict[i]);
+}
+dict = newDict;
 for(i = 0 ; i < dict.length; i++){
 if(dict[i].location == "Texas, USA"){
   dict[i].long = -99.9018
@@ -1688,44 +1696,19 @@ if(dict[i].location == "Texas, USA"){
 }else if(dict[i].location == "Maryland, USA"){
   dict[i].lan = 39.0458
   dict[i].long = -76.6413
-}else if(dict[i].location == "Vancouver, British Columbia"){
-  dict[i].lan = 49.2827
-  dict[i].long = -123.1207
 }else if(dict[i].location == "Alabama, USA"){
   dict[i].lan = 32.3182
   dict[i].long = -86.9023
 }else if(dict[i].location == "Colorado, USA"){
   dict[i].lan = 39.5501
   dict[i].long = -105.7821
-}else if(dict[i].location == "Halifax, Nova Scotia"){
-  dict[i].lan = 44.6488
-  dict[i].long = -63.5752
 }else if(dict[i].location == "Mississippi, USA"){
   dict[i].lan = 32.3547
   dict[i].long = -89.3985
-}else if(dict[i].location == "Edmonton, Alberta"){
-  dict[i].lan = 53.5444
-  dict[i].long = -113.4909
-}else if(dict[i].location == "C���cuta, Colombia"){
-  dict[i].lan = 7.8891
-  dict[i].long = -72.4967
-  dict[i].location = "Cucuta, Colombia"
 }else if(dict[i].location == "Fond du Lac, WI"){
   dict[i].lan = 43.7730
   dict[i].long = -88.4471
-}
-else if(dict[i].location == "Ottawa, Ontario"){
-  dict[i].lan = 45.4215
-  dict[i].long = -75.6972
-}else if(dict[i].location == "Calgary, Alberta"){
-  dict[i].lan = 51.0486
-  dict[i].long = -114.0708
-}
-else if(dict[i].location == "Quinte West, Ontario"){
-  dict[i].lan = 44.1790
-  dict[i].long = -77.5861
-}
-else if(dict[i].location == "Paradise, NV"){
+}else if(dict[i].location == "Paradise, NV"){
   dict[i].lan = 36.0972
   dict[i].long = -115.1467
 }else if(dict[i].location == "Louisiana, USA"){
@@ -1743,19 +1726,12 @@ else if(dict[i].location == "Paradise, NV"){
 }else if(dict[i].location == "Delaware, USA"){
   dict[i].lan = 38.9108
   dict[i].long = -75.5277
-}else if(dict[i].location == "Greater Vancouver, British Columbia"){
-  dict[i].lan = 49.2827
-  dict[i].long = -123.1207
 }else if(dict[i].location == "New Jersey, USA"){
   dict[i].lan = 40.0583
   dict[i].long = -74.4057
 }else if(dict[i].location == "Arizona, USA"){
   dict[i].lan = 34.0489
   dict[i].long = -111.0937
-}else if(dict[i].location == "Montr���al, Qu���bec"){
-  dict[i].lan = 45.5017
-  dict[i].long = -73.5673
-  dict[i].location = "Montreal, Quebec"
 }else if(dict[i].location == "Massachusetts, USA"){
   dict[i].lan =  42.407211
   dict[i].long = -71.382439
@@ -1778,12 +1754,7 @@ else if(dict[i].location == "Oregon, USA"){
 else if(dict[i].location == "Honolulu, HI"){
   dict[i].lan =  21.3069
   dict[i].long = -157.8583
-}
-else if(dict[i].location == "Richmond, British Columbia"){
-  dict[i].lan =  49.1666
-  dict[i].long = -123.1336
-}
-else if(dict[i].location == "Miami, FL"){
+}else if(dict[i].location == "Miami, FL"){
   dict[i].lan =  25.7617
   dict[i].long = -80.1918
 }
@@ -1791,6 +1762,7 @@ else if(dict[i].location == "Miami, FL"){
 
 
 top20 = [];
+top20Color = [];
 if(diseaseName != "all"){
     //////
     cancers = []
@@ -1855,7 +1827,7 @@ if(diseaseName != "all"){
     sortable.sort(function(a,b){
     return b[1] - a[1]
     })
-
+    
     top20.push(sortable[0])
 //////------
     cancers = []
@@ -2319,15 +2291,15 @@ if(diseaseName != "all"){
 
     top20.push(sortable[0])
 
-    top20.sort(function(a,b){
-    return b[1] - a[1]
-    })
+    // top20.sort(function(a,b){
+    // return b[1] - a[1]
+    // })
 
     locations = []
     for(j=0;j<top20.length;j++){
       for(i=0;i<dict.length;i++){
       if(top20[j][0] == dict[i].userId){
-        locations.push([dict[i].long,dict[i].lan,dict[i].location].join('|'))
+        locations.push([dict[i].long,dict[i].lan,dict[i].location,dict[i].diseaseName].join('|'))
     }
     }
     }
@@ -2356,18 +2328,66 @@ freData = {cnt:[]}
 
 
 maxLegend = locationSort[0][1]
-minLegend = locationSort[locationSort.length-1][1]
+minLegend = (locationSort[locationSort.length-1][1])/2
 portion = (maxLegend + minLegend) / 4;
-legendDemo();
+if(diseaseName != "all")
+    legendDemo();
 
-
+if(diseaseName == "all"){
+   for(obj in countLoc){
+    if(countLoc[obj] < minLegend + portion){
+       freData.cnt.push({
+              name: obj.split('|')[2],
+              freq: countLoc[obj],
+              fillKey: obj.split('|')[3],
+               radius: Math.sqrt(countLoc[obj])/2,
+                latitude: obj.split('|')[1],
+                  longitude: obj.split('|')[0]
+          
+              })
+     }
+     if(countLoc[obj] < minLegend + (2*portion) && countLoc[obj]>= minLegend + portion){
+       freData.cnt.push({
+              name: obj.split('|')[2] ,
+              freq: countLoc[obj],
+              fillKey: obj.split('|')[3],
+               radius: Math.sqrt(countLoc[obj])/2,
+                latitude: obj.split('|')[1],
+                  longitude: obj.split('|')[0]
+          
+              })
+     }
+     if(countLoc[obj] < minLegend + (3*portion) && countLoc[obj]>= minLegend + (2*portion)){
+       freData.cnt.push({
+              name: obj.split('|')[2] ,
+              freq: countLoc[obj],
+              fillKey: obj.split('|')[3],
+               radius: Math.sqrt(countLoc[obj])/2,
+                latitude: obj.split('|')[1],
+                  longitude: obj.split('|')[0]
+          
+              })
+     }
+     if(countLoc[obj] >= minLegend + (3*portion)){
+       freData.cnt.push({
+              name: obj.split('|')[2] ,
+              freq: countLoc[obj],
+              fillKey: obj.split('|')[3],
+               radius: Math.sqrt(countLoc[obj])/2,
+                latitude: obj.split('|')[1],
+                  longitude: obj.split('|')[0]
+          
+              })
+     }
+  }
+}else{
   for(obj in countLoc){
     if(countLoc[obj] < minLegend + portion){
        freData.cnt.push({
               name: obj.split('|')[2],
               freq: countLoc[obj],
               fillKey: 'first',
-               radius: Math.sqrt(countLoc[obj]),
+               radius: Math.sqrt(countLoc[obj])/2,
                 latitude: obj.split('|')[1],
                   longitude: obj.split('|')[0]
           
@@ -2378,7 +2398,7 @@ legendDemo();
               name: obj.split('|')[2] ,
               freq: countLoc[obj],
               fillKey: 'second',
-               radius: Math.sqrt(countLoc[obj]),
+               radius: Math.sqrt(countLoc[obj])/2,
                 latitude: obj.split('|')[1],
                   longitude: obj.split('|')[0]
           
@@ -2389,7 +2409,7 @@ legendDemo();
               name: obj.split('|')[2] ,
               freq: countLoc[obj],
               fillKey: 'third',
-               radius: Math.sqrt(countLoc[obj]),
+               radius: Math.sqrt(countLoc[obj])/2,
                 latitude: obj.split('|')[1],
                   longitude: obj.split('|')[0]
           
@@ -2400,13 +2420,14 @@ legendDemo();
               name: obj.split('|')[2] ,
               freq: countLoc[obj],
               fillKey: 'forth',
-               radius: Math.sqrt(countLoc[obj]),
+               radius: Math.sqrt(countLoc[obj])/2,
                 latitude: obj.split('|')[1],
                   longitude: obj.split('|')[0]
           
               })
      }
   }
+}
 
 // debugger;
 a = d3.selectAll('.datamaps-hoverover')
@@ -2431,6 +2452,26 @@ if(document.getElementById('mapSvg') != null)
         'second': secondColor,
         'third': thirdColor,
         'forth': lastColor,
+         'cancer' : mapColorList["cancer"],
+         'blood' : mapColorList["blood"],
+         'Endocrine' : mapColorList["Endocrine"],
+        'Multiple': mapColorList["Multiple"],
+        'Musculoskeletal': mapColorList["Musculoskeletal"],
+        'Psych': mapColorList["Psych"],
+        'Skin': mapColorList["Skin"],
+        'SenseOrgansSkin': mapColorList["SenseOrgansSkin"],
+        'Neurological': mapColorList["Neurological"],
+        'Injury': mapColorList["Injury"],
+        'Excretory': mapColorList["Excretory"],
+        'Immune': mapColorList["Immune"],
+         'InfectiousParasitic' : mapColorList["InfectiousParasitic"],
+        'RareDiseases': mapColorList["RareDiseases"],
+        'Respiratory': mapColorList["Respiratory"],
+        'Reproductive': mapColorList["Reproductive"],
+        'Digestive': mapColorList["Digestive"],
+        'CongenitalAnomolies': mapColorList["CongenitalAnomolies"],
+        'Lymphatic': mapColorList["Lymphatic"],
+        'cardiovascular': mapColorList["cardiovascular"],
         defaultFill: '#ccc'
     }
 });
@@ -2464,14 +2505,10 @@ else
 
 
 function showUser(diseaseName, diseaseList, mapColor){
-  // d3.json("userData.json", function(error, userData){
+ 
 diseaseUser = {diseaseName:'', value:[]}
 diseaseUser.diseaseName = diseaseName;
 
-
-diseaseList.sort(function(a,b){
-  return b[1] - a[1];
-})
 diseaseUser.value = diseaseList;
 
 
@@ -2531,7 +2568,7 @@ d3.selectAll('#userFreq svg').remove()
         labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
     })
             // .on('click', tip.hide)
-            .on('click', function(d){
+            .on('mouseover', function(d){
 
               d3.csv("diseaseUserData.csv", function(error, contentData){
                     var count = 0;
@@ -2627,12 +2664,60 @@ d3.selectAll('#userFreq svg').remove()
             .attr("transform", "translate(" + (margin + labelWidth) + ","+ (height - axisMargin - margin)+")")
             .call(xAxis);
 
+    if(diseaseName != "all")
+      svg.selectAll('rect').attr("fill", mapColor)
+    else{
+      debugger;
+      rectBar = d3.selectAll(".bar")
+      for(i = 0 ; i < rectBar[0].length;i++){
+          rectColor = rectBar[0][0].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["cancer"])
+          rectColor = rectBar[0][1].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["blood"])
+          rectColor = rectBar[0][2].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Psych"])
+          rectColor = rectBar[0][3].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Endocrine"])
+          rectColor = rectBar[0][4].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["RareDiseases"])
+          rectColor = rectBar[0][5].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Excretory"])
+          rectColor = rectBar[0][6].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Injury"])
+          rectColor = rectBar[0][7].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Musculoskeletal"])
+          rectColor = rectBar[0][8].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Multiple"])
+          rectColor = rectBar[0][9].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Neurological"])
+          rectColor = rectBar[0][10].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Immune"])
+          rectColor = rectBar[0][11].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["CongenitalAnomolies"])
+          rectColor = rectBar[0][12].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["InfectiousParasitic"])
+          rectColor = rectBar[0][13].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Reproductive"])
+          rectColor = rectBar[0][14].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["SenseOrgansSkin"])
+          rectColor = rectBar[0][15].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Lymphatic"])
+          rectColor = rectBar[0][16].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Digestive"])
+          rectColor = rectBar[0][17].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Metabolic"])
+          rectColor = rectBar[0][18].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Respiratory"])
+          rectColor = rectBar[0][19].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["Skin"])
+          rectColor = rectBar[0][20].getElementsByTagName("rect");
+          rectColor[0].setAttribute("fill",mapColorList["cardiovascular"])
+          
+        }
+    }
+   
 
-            svg.selectAll('rect').attr("fill", mapColor)
 
-
-
-// });
 
 
 
